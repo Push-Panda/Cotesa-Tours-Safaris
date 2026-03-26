@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cotesa Tours — Kenya</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --earth:   #2C1A0E;
+    --amber:   #C8882A;
+    --gold:    #E8B84B;
+    --savanna: #F5E6C8;
+    --green:   #1D3D2A;
+    --sage:    #4A7C59;
+    --cream:   #FBF5E8;
+    --white:   #FFFFFF;
+    --text:    #1A1008;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── CURSOR ── */
+  body { cursor: none; }
+  #cursor {
+    position: fixed; width: 12px; height: 12px;
+    background: var(--gold); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease, width 0.3s, height 0.3s, background 0.3s;
+    mix-blend-mode: multiply;
+  }
+  #cursor.big { width: 40px; height: 40px; background: var(--amber); opacity: 0.5; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 1.4rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: background 0.4s, padding 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(44,26,14,0.96);
+    padding: 1rem 3rem;
+    backdrop-filter: blur(8px);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-weight: 900;
+    color: var(--gold); letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--white); font-weight: 400; }
+  .nav-links { display: flex; gap: 2.4rem; list-style: none; }
+  .nav-links a {
+    color: rgba(255,255,255,0.85); text-decoration: none;
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: var(--amber); color: var(--white);
+    border: none; padding: 0.65rem 1.6rem;
+    font-family: 'Jost', sans-serif; font-size: 0.8rem;
+    font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: none; transition: background 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold); transform: translateY(-1px); }
+
+  /* ── HAMBURGER ── */
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: none; background: none; border: none; }
+  .hamburger span { width: 26px; height: 2px; background: var(--white); transition: 0.3s; }
+
+  /* ── HERO ── */
+  #hero {
+    height: 100vh; position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(20,10,0,0.3) 0%, rgba(20,10,0,0.65) 100%),
+      url('https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1800&q=80') center/cover no-repeat;
+    transform: scale(1.08);
+    transition: transform 12s ease-out;
+  }
+  #hero.loaded .hero-bg { transform: scale(1); }
+
+  /* Grain overlay */
+  .hero-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.18; pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative; text-align: center;
+    color: var(--white); padding: 2rem;
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 1s 0.4s ease, transform 1s 0.4s ease;
+  }
+  #hero.loaded .hero-content { opacity: 1; transform: translateY(0); }
+
+  .hero-tag {
+    font-size: 0.75rem; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--gold); font-weight: 500;
+    margin-bottom: 1.2rem;
+    display: flex; align-items: center; justify-content: center; gap: 1rem;
+  }
+  .hero-tag::before, .hero-tag::after {
+    content: ''; width: 40px; height: 1px; background: var(--gold); opacity: 0.6;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.2rem, 8vw, 7rem);
+    font-weight: 900; line-height: 0.95;
+    margin-bottom: 0.3rem;
+    text-shadow: 0 4px 40px rgba(0,0,0,0.4);
+  }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    font-weight: 300; letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 3rem;
+  }
+  .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--amber); color: var(--white);
+    padding: 1rem 2.4rem; border: none;
+    font-family: 'Jost', sans-serif; font-size: 0.85rem;
+    font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    text-decoration: none; cursor: none;
+    transition: background 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--white);
+    padding: 1rem 2.4rem;
+    border: 1px solid rgba(255,255,255,0.5);
+    font-family: 'Jost', sans-serif; font-size: 0.85rem;
+    font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+    text-decoration: none; cursor: none;
+    transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    color: rgba(255,255,255,0.5); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  .scroll-line {
+    width: 1px; height: 50px; background: rgba(255,255,255,0.3);
+    position: relative; overflow: hidden;
+  }
+  .scroll-line::after {
+    content: ''; position: absolute; top: -100%; left: 0;
+    width: 100%; height: 100%; background: var(--gold);
+    animation: scrollDown 2s ease infinite;
+  }
+  @keyframes scrollDown { 0%{top:-100%} 100%{top:200%} }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    background: var(--earth); color: var(--white);
+    display: grid; grid-template-columns: repeat(4, 1fr);
+  }
+  .stat-item {
+    padding: 2rem; text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.08);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem; font-weight: 700; color: var(--gold);
+    display: block;
+  }
+  .stat-label { font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-top: 0.3rem; }
+
+  /* ── SECTION COMMONS ── */
+  section { padding: 7rem 3rem; }
+  .section-tag {
+    font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--amber); font-weight: 600; margin-bottom: 0.8rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800; line-height: 1.1;
+    color: var(--earth);
+  }
+  .section-title em { font-style: italic; color: var(--sage); }
+  .section-lead {
+    font-size: 1.05rem; font-weight: 300; line-height: 1.8;
+    color: #4a3828; max-width: 560px; margin-top: 1rem;
+  }
+
+  /* ── ABOUT ── */
+  #about { background: var(--cream); }
+  .about-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+  }
+  .about-img-wrap { position: relative; }
+  .about-img {
+    width: 100%; aspect-ratio: 3/4; object-fit: cover;
+    display: block;
+  }
+  .about-img-accent {
+    position: absolute; bottom: -2rem; right: -2rem;
+    width: 55%; aspect-ratio: 1;
+    background: url('https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=600&q=80') center/cover;
+    border: 6px solid var(--cream);
+    z-index: 2;
+  }
+  .about-badge {
+    position: absolute; top: 2rem; left: -2rem;
+    background: var(--amber); color: var(--white);
+    width: 120px; height: 120px; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    z-index: 3;
+  }
+  .about-badge strong { font-size: 2rem; font-weight: 900; line-height: 1; }
+  .about-badge span { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  .about-text { padding-top: 1rem; }
+  .about-text p { font-size: 1rem; line-height: 1.85; color: #3d2c1e; margin-top: 1.2rem; }
+  .about-features { margin-top: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .feature-chip {
+    display: flex; align-items: center; gap: 0.7rem;
+    font-size: 0.85rem; font-weight: 500; color: var(--green);
+  }
+  .feature-chip::before { content: '✦'; color: var(--amber); font-size: 0.65rem; }
+
+  /* ── TOURS ── */
+  #tours { background: var(--earth); }
+  #tours .section-title { color: var(--savanna); }
+  #tours .section-title em { color: var(--gold); }
+  #tours .section-tag { color: var(--gold); }
+  #tours .section-lead { color: rgba(245,230,200,0.7); }
+  .tours-header {
+    max-width: 1200px; margin: 0 auto 4rem;
+    display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 2rem;
+  }
+  .tours-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px;
+  }
+  .tour-card {
+    position: relative; overflow: hidden;
+    aspect-ratio: 3/4; cursor: none;
+  }
+  .tour-card:first-child { aspect-ratio: auto; grid-row: span 2; }
+  .tour-img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.7s ease;
+  }
+  .tour-card:hover .tour-img { transform: scale(1.06); }
+  .tour-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(20,8,0,0.92) 0%, rgba(20,8,0,0.1) 60%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 2rem;
+    transition: background 0.3s;
+  }
+  .tour-card:hover .tour-overlay { background: linear-gradient(to top, rgba(20,8,0,0.96) 0%, rgba(20,8,0,0.3) 60%); }
+  .tour-tag-sm {
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 0.4rem;
+  }
+  .tour-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; font-weight: 700; color: var(--white);
+    margin-bottom: 0.3rem;
+  }
+  .tour-card:first-child .tour-name { font-size: 2rem; }
+  .tour-meta {
+    font-size: 0.78rem; color: rgba(255,255,255,0.55); margin-bottom: 1rem;
+    display: flex; gap: 1rem;
+  }
+  .tour-details {
+    font-size: 0.82rem; color: rgba(255,255,255,0.7);
+    line-height: 1.6; max-height: 0; overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .tour-card:hover .tour-details { max-height: 200px; }
+  .tour-price {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 1rem;
+  }
+  .price-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; color: var(--gold); font-weight: 700;
+  }
+  .price-val small { font-size: 0.7rem; color: rgba(255,255,255,0.4); font-family: 'Jost', sans-serif; font-weight: 300; }
+  .tour-btn {
+    background: var(--amber); color: var(--white);
+    border: none; padding: 0.5rem 1.2rem;
+    font-family: 'Jost', sans-serif; font-size: 0.75rem;
+    font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: none; transition: background 0.2s;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity 0.3s, transform 0.3s, background 0.2s;
+  }
+  .tour-card:hover .tour-btn { opacity: 1; transform: translateY(0); }
+  .tour-btn:hover { background: var(--gold); }
+
+  /* ── DESTINATIONS ── */
+  #destinations { background: var(--savanna); }
+  .dest-grid {
+    max-width: 1200px; margin: 3rem auto 0;
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem;
+  }
+  .dest-card {
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; cursor: none;
+    transition: transform 0.3s;
+  }
+  .dest-card:hover { transform: translateY(-6px); }
+  .dest-img-wrap {
+    width: 100%; aspect-ratio: 2/3; overflow: hidden;
+    margin-bottom: 1rem; position: relative;
+  }
+  .dest-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+  .dest-card:hover .dest-img { transform: scale(1.07); }
+  .dest-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; font-weight: 700; color: var(--earth);
+  }
+  .dest-count { font-size: 0.72rem; color: var(--sage); letter-spacing: 0.1em; margin-top: 0.2rem; }
+
+  /* ── WHY US ── */
+  #why { background: var(--green); }
+  #why .section-title { color: var(--savanna); }
+  #why .section-title em { color: var(--gold); }
+  #why .section-tag { color: var(--gold); }
+  .why-grid {
+    max-width: 1200px; margin: 4rem auto 0;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  }
+  .why-card {
+    padding: 3rem 2rem;
+    border-right: 1px solid rgba(255,255,255,0.07);
+    transition: background 0.3s;
+  }
+  .why-card:last-child { border-right: none; }
+  .why-card:hover { background: rgba(255,255,255,0.04); }
+  .why-icon {
+    font-size: 2rem; margin-bottom: 1.2rem; display: block;
+  }
+  .why-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem; font-weight: 700;
+    color: var(--savanna); margin-bottom: 0.8rem;
+  }
+  .why-text { font-size: 0.88rem; line-height: 1.75; color: rgba(245,230,200,0.55); }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials { background: var(--cream); overflow: hidden; }
+  .testimonials-header {
+    max-width: 1200px; margin: 0 auto 4rem;
+    display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 2rem;
+  }
+  .testi-track-wrap { overflow: hidden; }
+  .testi-track {
+    display: flex; gap: 2rem;
+    animation: slideTesti 30s linear infinite;
+    width: max-content;
+  }
+  .testi-track:hover { animation-play-state: paused; }
+  @keyframes slideTesti {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .testi-card {
+    width: 380px; flex-shrink: 0;
+    background: var(--white);
+    padding: 2.5rem;
+    border-bottom: 3px solid var(--amber);
+    box-shadow: 0 8px 40px rgba(44,26,14,0.06);
+  }
+  .testi-stars { color: var(--gold); font-size: 0.9rem; margin-bottom: 1.2rem; letter-spacing: 0.1em; }
+  .testi-text {
+    font-size: 0.95rem; line-height: 1.8; color: #3d2c1e;
+    font-style: italic; margin-bottom: 1.5rem;
+  }
+  .testi-text::before { content: '\201C'; font-size: 2rem; color: var(--amber); line-height: 0; vertical-align: -0.5rem; margin-right: 0.2rem; }
+  .testi-author { display: flex; align-items: center; gap: 1rem; }
+  .testi-avatar {
+    width: 44px; height: 44px; border-radius: 50%; object-fit: cover;
+    border: 2px solid var(--savanna);
+  }
+  .testi-name { font-weight: 600; font-size: 0.9rem; color: var(--earth); }
+  .testi-origin { font-size: 0.75rem; color: var(--sage); }
+
+  /* ── GALLERY ── */
+  #gallery { background: var(--earth); padding-bottom: 0; }
+  #gallery .section-title { color: var(--savanna); }
+  #gallery .section-tag { color: var(--gold); }
+  .gallery-header { max-width: 1200px; margin: 0 auto 3rem; }
+  .gallery-mosaic {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(2, 280px);
+    gap: 3px;
+  }
+  .gal-item { overflow: hidden; cursor: none; }
+  .gal-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+  .gal-item:nth-child(2) { grid-column: span 2; }
+  .gal-item:nth-child(3) { grid-column: span 2; }
+  .gal-item:nth-child(4) { grid-column: span 1; }
+  .gal-item:nth-child(5) { grid-column: span 2; }
+  .gal-item:nth-child(6) { grid-column: span 1; }
+  .gal-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; display: block; }
+  .gal-item:hover .gal-img { transform: scale(1.08); }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--savanna); }
+  .contact-wrap {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start;
+  }
+  .contact-info { padding-top: 1rem; }
+  .contact-info p { font-size: 1rem; line-height: 1.8; color: #4a3828; margin-top: 1rem; }
+  .contact-details { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1.2rem; }
+  .contact-item { display: flex; align-items: flex-start; gap: 1rem; }
+  .contact-icon {
+    width: 44px; height: 44px; background: var(--amber);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .contact-item-text strong { display: block; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sage); margin-bottom: 0.2rem; }
+  .contact-item-text span { font-size: 0.95rem; color: var(--earth); }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label { display: block; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sage); font-weight: 600; margin-bottom: 0.5rem; }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%; background: var(--white);
+    border: 1px solid rgba(44,26,14,0.12);
+    padding: 0.85rem 1rem;
+    font-family: 'Jost', sans-serif; font-size: 0.95rem; color: var(--earth);
+    outline: none; transition: border-color 0.2s;
+    appearance: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--amber); }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  /* ── FOOTER ── */
+  footer { background: #180E06; color: rgba(255,255,255,0.55); }
+  .footer-top {
+    max-width: 1200px; margin: 0 auto;
+    padding: 5rem 0 3rem;
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem;
+  }
+  .footer-brand .nav-logo { display: inline-block; margin-bottom: 1rem; }
+  .footer-brand p { font-size: 0.88rem; line-height: 1.7; max-width: 280px; }
+  .footer-socials { display: flex; gap: 0.8rem; margin-top: 1.5rem; }
+  .social-btn {
+    width: 36px; height: 36px; background: rgba(255,255,255,0.07);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; color: rgba(255,255,255,0.6); text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+  .social-btn:hover { background: var(--amber); color: var(--white); }
+  .footer-col h4 {
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); font-weight: 600; margin-bottom: 1.5rem;
+  }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+  .footer-col a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--gold); }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 1.5rem 0;
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.78rem;
+  }
+
+  /* ── MOBILE NAV ── */
+  .mobile-menu {
+    display: none; position: fixed; inset: 0;
+    background: var(--earth); z-index: 200;
+    flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem; color: var(--savanna); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--gold); }
+  .mobile-close {
+    position: absolute; top: 2rem; right: 2.5rem;
+    background: none; border: none; color: var(--savanna);
+    font-size: 2rem; cursor: none;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .tours-grid { grid-template-columns: 1fr 1fr; }
+    .tour-card:first-child { grid-row: span 1; }
+    .dest-grid { grid-template-columns: repeat(3, 1fr); }
+    .why-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-mosaic { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 220px); }
+    .gal-item:nth-child(1) { grid-column: span 1; grid-row: span 2; }
+    .gal-item:nth-child(2), .gal-item:nth-child(3) { grid-column: span 1; }
+    .gal-item:nth-child(5) { grid-column: span 1; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    nav.scrolled { padding: 0.9rem 1.5rem; }
+    .nav-links, .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    section { padding: 5rem 1.5rem; }
+    .stats-bar { grid-template-columns: 1fr 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .about-img-accent { right: 0; }
+    .tours-grid { grid-template-columns: 1fr; }
+    .dest-grid { grid-template-columns: repeat(2, 1fr); }
+    .why-grid { grid-template-columns: 1fr 1fr; }
+    .gallery-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .gal-item { aspect-ratio: 1; }
+    .gal-item:nth-child(1) { grid-column: span 2; }
+    .gal-item:nth-child(5) { grid-column: span 1; }
+    .contact-wrap { grid-template-columns: 1fr; gap: 3rem; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  /* ── REVEAL ANIMATION ── */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+  .reveal-delay-3 { transition-delay: 0.45s; }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="toggleMenu()">✕</button>
+  <a href="#about" onclick="toggleMenu()">About</a>
+  <a href="#tours" onclick="toggleMenu()">Tours</a>
+  <a href="#destinations" onclick="toggleMenu()">Destinations</a>
+  <a href="#testimonials" onclick="toggleMenu()">Reviews</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Cotesa <span>Tours</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#tours">Tours</a></li>
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book Now</button>
+  <button class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Nairobi, Kenya — Est. 2010</div>
+    <h1 class="hero-title">Discover Wild<br><em>Kenya</em></h1>
+    <p class="hero-subtitle">Authentic safari experiences, curated for the curious traveller</p>
+    <div class="hero-btns">
+      <a href="#tours" class="btn-primary">Explore Tours</a>
+      <a href="#about" class="btn-outline">Our Story</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item reveal">
+    <span class="stat-num" data-count="14">0</span>
+    <span class="stat-label">Years of Experience</span>
+  </div>
+  <div class="stat-item reveal reveal-delay-1">
+    <span class="stat-num" data-count="4800">0</span>
+    <span class="stat-label">Happy Travellers</span>
+  </div>
+  <div class="stat-item reveal reveal-delay-2">
+    <span class="stat-num" data-count="28">0</span>
+    <span class="stat-label">Unique Safari Routes</span>
+  </div>
+  <div class="stat-item reveal reveal-delay-3">
+    <span class="stat-num" data-count="12">0</span>
+    <span class="stat-label">National Parks Covered</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-img-wrap reveal">
+      <img src="https://images.unsplash.com/photo-1503919005314-30d93d07d823?w=800&q=80" alt="Kenya Safari" class="about-img">
+      <div class="about-img-accent"></div>
+      <div class="about-badge"><strong>14</strong><span>Years</span></div>
+    </div>
+    <div class="about-text reveal reveal-delay-1">
+      <p class="section-tag">Our Story</p>
+      <h2 class="section-title">Kenya is Our<br><em>Home & Passion</em></h2>
+      <p class="section-lead">We don't just show you Kenya — we share it with you the way we know it best: intimately, honestly, and unforgettably.</p>
+      <p>Founded in Nairobi in 2010, Cotesa Tours was built on a single belief: that the best safari is one led by people who were born in this landscape, who understand its rhythms, speak its languages, and feel it in their bones.</p>
+      <p>From the sweeping plains of the Masai Mara to the forests of Aberdare, from Diani Beach to Lake Nakuru, every itinerary we craft carries the knowledge of our guides and the warmth of our people.</p>
+      <div class="about-features">
+        <div class="feature-chip">Expert Local Guides</div>
+        <div class="feature-chip">Small Group Sizes</div>
+        <div class="feature-chip">Eco-Responsible Travel</div>
+        <div class="feature-chip">24/7 Guest Support</div>
+        <div class="feature-chip">Custom Itineraries</div>
+        <div class="feature-chip">Airport Transfers</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOURS -->
+<section id="tours">
+  <div class="tours-header">
+    <div>
+      <p class="section-tag">Our Packages</p>
+      <h2 class="section-title" style="color:var(--savanna)">Safari Tours &<br><em>Adventures</em></h2>
+    </div>
+    <p class="section-lead">Handpicked experiences designed around what moves you — wildlife, culture, coast, or all three.</p>
+  </div>
+  <div class="tours-grid">
+
+    <div class="tour-card">
+      <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&q=80" alt="Masai Mara" class="tour-img">
+      <div class="tour-overlay">
+        <span class="tour-tag-sm">Signature Safari</span>
+        <h3 class="tour-name">Masai Mara Great Migration</h3>
+        <div class="tour-meta"><span>🕐 7 Days</span><span>👥 Max 8 pax</span></div>
+        <p class="tour-details">Witness one of nature's greatest spectacles — over a million wildebeest crossing the Mara River. Includes luxury tented camps, game drives at dawn and dusk, and a Maasai village visit.</p>
+        <div class="tour-price">
+          <div class="price-val">KES 85,000 <small>/ person</small></div>
+          <button class="tour-btn">Book Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tour-card">
+      <img src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=600&q=80" alt="Amboseli" class="tour-img">
+      <div class="tour-overlay">
+        <span class="tour-tag-sm">Classic Safari</span>
+        <h3 class="tour-name">Amboseli & Kilimanjaro Views</h3>
+        <div class="tour-meta"><span>🕐 4 Days</span><span>👥 Max 6 pax</span></div>
+        <p class="tour-details">Elephants against the backdrop of Africa's highest peak. The iconic Amboseli landscape with expert naturalist guides.</p>
+        <div class="tour-price">
+          <div class="price-val">KES 48,000 <small>/ person</small></div>
+          <button class="tour-btn">Book Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tour-card">
+      <img src="https://images.unsplash.com/photo-1565620551738-5f4a9f8ece76?w=600&q=80" alt="Diani Beach" class="tour-img">
+      <div class="tour-overlay">
+        <span class="tour-tag-sm">Coast Escape</span>
+        <h3 class="tour-name">Diani Beach & Mombasa Old Town</h3>
+        <div class="tour-meta"><span>🕐 5 Days</span><span>👥 Max 10 pax</span></div>
+        <p class="tour-details">White coral sands, dhow cruises on the Indian Ocean, and the Swahili history of Mombasa's ancient port city.</p>
+        <div class="tour-price">
+          <div class="price-val">KES 42,000 <small>/ person</small></div>
+          <button class="tour-btn">Book Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tour-card">
+      <img src="https://images.unsplash.com/photo-1535941339077-2dd1c7963098?w=600&q=80" alt="Lake Nakuru" class="tour-img">
+      <div class="tour-overlay">
+        <span class="tour-tag-sm">Rift Valley</span>
+        <h3 class="tour-name">Lakes Nakuru & Bogoria</h3>
+        <div class="tour-meta"><span>🕐 3 Days</span><span>👥 Max 8 pax</span></div>
+        <p class="tour-details">Flamingos turning lakes pink, rhinos, leopards, and geysers in the heart of the Great Rift Valley.</p>
+        <div class="tour-price">
+          <div class="price-val">KES 32,000 <small>/ person</small></div>
+          <button class="tour-btn">Book Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tour-card">
+      <img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=600&q=80" alt="Mount Kenya" class="tour-img">
+      <div class="tour-overlay">
+        <span class="tour-tag-sm">Adventure Trek</span>
+        <h3 class="tour-name">Mount Kenya Trek</h3>
+        <div class="tour-meta"><span>🕐 6 Days</span><span>👥 Max 6 pax</span></div>
+        <p class="tour-details">Summit Africa's second-highest peak through moorlands, glaciers, and equatorial alpine scenery.</p>
+        <div class="tour-price">
+          <div class="price-val">KES 55,000 <small>/ person</small></div>
+          <button class="tour-btn">Book Now</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- DESTINATIONS -->
+<section id="destinations">
+  <div class="reveal" style="max-width:1200px;margin:0 auto">
+    <p class="section-tag">Where We Go</p>
+    <h2 class="section-title">Kenya's Most<br><em>Iconic Places</em></h2>
+  </div>
+  <div class="dest-grid">
+    <div class="dest-card reveal">
+      <div class="dest-img-wrap">
+        <img src="https://images.unsplash.com/photo-1534177616072-ef7dc120449d?w=400&q=80" alt="Masai Mara" class="dest-img">
+      </div>
+      <div class="dest-name">Masai Mara</div>
+      <div class="dest-count">6 tours</div>
+    </div>
+    <div class="dest-card reveal reveal-delay-1">
+      <div class="dest-img-wrap">
+        <img src="https://images.unsplash.com/photo-1609198092458-38a293c7ac4b?w=400&q=80" alt="Amboseli" class="dest-img">
+      </div>
+      <div class="dest-name">Amboseli</div>
+      <div class="dest-count">4 tours</div>
+    </div>
+    <div class="dest-card reveal reveal-delay-2">
+      <div class="dest-img-wrap">
+        <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&q=80" alt="Diani Coast" class="dest-img">
+      </div>
+      <div class="dest-name">Diani Coast</div>
+      <div class="dest-count">3 tours</div>
+    </div>
+    <div class="dest-card reveal reveal-delay-3">
+      <div class="dest-img-wrap">
+        <img src="https://images.unsplash.com/photo-1623479322729-28b25c16b011?w=400&q=80" alt="Tsavo" class="dest-img">
+      </div>
+      <div class="dest-name">Tsavo</div>
+      <div class="dest-count">5 tours</div>
+    </div>
+    <div class="dest-card reveal">
+      <div class="dest-img-wrap">
+        <img src="https://images.unsplash.com/photo-1611348586804-61bf6c080437?w=400&q=80" alt="Lake Nakuru" class="dest-img">
+      </div>
+      <div class="dest-name">Lake Nakuru</div>
+      <div class="dest-count">3 tours</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div style="max-width:1200px;margin:0 auto">
+    <p class="section-tag">Why Cotesa</p>
+    <h2 class="section-title">Travel Better.<br><em>Go Deeper.</em></h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-card reveal">
+      <span class="why-icon">🦁</span>
+      <h3 class="why-title">Born in the Bush</h3>
+      <p class="why-text">Our guides grew up in and around Kenya's national parks. Their knowledge isn't from a textbook — it's lived, inherited, and deeply personal.</p>
+    </div>
+    <div class="why-card reveal reveal-delay-1">
+      <span class="why-icon">🌿</span>
+      <h3 class="why-title">Eco-Responsible</h3>
+      <p class="why-text">We partner only with lodges and camps that practise low-impact tourism and actively support wildlife conservation and local communities.</p>
+    </div>
+    <div class="why-card reveal reveal-delay-2">
+      <span class="why-icon">✦</span>
+      <h3 class="why-title">Tailored Itineraries</h3>
+      <p class="why-text">No two trips are the same. We design every journey around you — your pace, your interests, your idea of the perfect Kenya experience.</p>
+    </div>
+    <div class="why-card reveal reveal-delay-3">
+      <span class="why-icon">🛡️</span>
+      <h3 class="why-title">Safe & Supported</h3>
+      <p class="why-text">Licensed by the Tourism Regulatory Authority of Kenya. 24/7 in-country support, fully insured vehicles, and first-aid trained guides on every tour.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="testimonials-header reveal">
+    <div>
+      <p class="section-tag">Guest Reviews</p>
+      <h2 class="section-title">What Our Travellers<br><em>Say About Us</em></h2>
+    </div>
+    <p class="section-lead" style="max-width:320px">Real words from real people who came to Kenya and left changed.</p>
+  </div>
+  <div class="testi-track-wrap">
+    <div class="testi-track" id="testiTrack">
+      <!-- Cards duplicated for infinite scroll -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">The Great Migration was beyond anything I could have imagined. Our guide James knew exactly where to position us — we watched the crossing for three hours. Absolutely life-changing.</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/44?img=5" alt="" class="testi-avatar">
+          <div><div class="testi-name">Sarah Mitchell</div><div class="testi-origin">Toronto, Canada</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">Cotesa made everything seamless. From airport pickup to the last game drive, every detail was handled with care. The small group size meant we had genuinely personal attention.</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/44?img=12" alt="" class="testi-avatar">
+          <div><div class="testi-name">Marco Ricci</div><div class="testi-origin">Milan, Italy</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">I've done safaris in Tanzania and South Africa, and this was the best. The guides' knowledge of animal behaviour is extraordinary — they found the leopard in a tree that nobody else could spot.</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/44?img=23" alt="" class="testi-avatar">
+          <div><div class="testi-name">Amara Osei</div><div class="testi-origin">Accra, Ghana</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">The Diani Beach extension was perfect. Five days of wildlife followed by five days of ocean. Cotesa handled the whole thing and it was flawless. Already planning our return trip.</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/44?img=47" alt="" class="testi-avatar">
+          <div><div class="testi-name">Priya Nair</div><div class="testi-origin">Mumbai, India</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">As a solo female traveller, safety was my first concern. Cotesa made me feel completely secure throughout. The team was professional, warm, and genuinely great company.</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/44?img=32" alt="" class="testi-avatar">
+          <div><div class="testi-name">Hanna Björk</div><div class="testi-origin">Stockholm, Sweden</div></div>
+        </div>
+      </div>
+      <!-- Duplicate for seamless loop -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">The Great Migration was beyond anything I could have imagined. Our guide James knew exactly where to position us — we watched the crossing for three hours. Absolutely life-changing.</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/44?img=5" alt="" class="testi-avatar">
+          <div><div class="testi-name">Sarah Mitchell</div><div class="testi-origin">Toronto, Canada</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">Cotesa made everything seamless. From airport pickup to the last game drive, every detail was handled with care. The small group size meant we had genuinely personal attention.</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/44?img=12" alt="" class="testi-avatar">
+          <div><div class="testi-name">Marco Ricci</div><div class="testi-origin">Milan, Italy</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">I've done safaris in Tanzania and South Africa, and this was the best. The guides' knowledge of animal behaviour is extraordinary — they found the leopard in a tree that nobody else could spot.</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/44?img=23" alt="" class="testi-avatar">
+          <div><div class="testi-name">Amara Osei</div><div class="testi-origin">Accra, Ghana</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">The Diani Beach extension was perfect. Five days of wildlife followed by five days of ocean. Cotesa handled the whole thing and it was flawless. Already planning our return trip.</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/44?img=47" alt="" class="testi-avatar">
+          <div><div class="testi-name">Priya Nair</div><div class="testi-origin">Mumbai, India</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">As a solo female traveller, safety was my first concern. Cotesa made me feel completely secure throughout. The team was professional, warm, and genuinely great company.</p>
+        <div class="testi-author">
+          <img src="https://i.pravatar.cc/44?img=32" alt="" class="testi-avatar">
+          <div><div class="testi-name">Hanna Björk</div><div class="testi-origin">Stockholm, Sweden</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="gallery-header reveal">
+    <p class="section-tag">Captured Moments</p>
+    <h2 class="section-title" style="color:var(--savanna)">Kenya Through<br><em>Our Lens</em></h2>
+  </div>
+  <div class="gallery-mosaic">
+    <div class="gal-item"><img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800&q=80" alt="" class="gal-img"></div>
+    <div class="gal-item"><img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=600&q=80" alt="" class="gal-img"></div>
+    <div class="gal-item"><img src="https://images.unsplash.com/photo-1534177616072-ef7dc120449d?w=600&q=80" alt="" class="gal-img"></div>
+    <div class="gal-item"><img src="https://images.unsplash.com/photo-1549366021-9f761d450615?w=400&q=80" alt="" class="gal-img"></div>
+    <div class="gal-item"><img src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=600&q=80" alt="" class="gal-img"></div>
+    <div class="gal-item"><img src="https://images.unsplash.com/photo-1611348586804-61bf6c080437?w=400&q=80" alt="" class="gal-img"></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="contact-info reveal">
+      <p class="section-tag">Get In Touch</p>
+      <h2 class="section-title">Plan Your<br><em>Kenya Journey</em></h2>
+      <p>Ready to experience Kenya with people who know it best? Tell us about your dream trip and we'll craft an itinerary that fits you perfectly.</p>
+      <div class="contact-details">
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div class="contact-item-text">
+            <strong>Address</strong>
+            <span>Westlands, Nairobi, Kenya</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div class="contact-item-text">
+            <strong>Phone / WhatsApp</strong>
+            <span>+254 700 000 000</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div class="contact-item-text">
+            <strong>Email</strong>
+            <span>hello@cotesatours.co.ke</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div class="contact-item-text">
+            <strong>Office Hours</strong>
+            <span>Mon – Sat, 8:00 AM – 6:00 PM EAT</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-1">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="John">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Doe">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="john@example.com">
+      </div>
+      <div class="form-group">
+        <label>Phone / WhatsApp</label>
+        <input type="tel" placeholder="+1 234 567 8900">
+      </div>
+      <div class="form-group">
+        <label>Tour of Interest</label>
+        <select>
+          <option value="">Select a package...</option>
+          <option>Masai Mara Great Migration (7 Days)</option>
+          <option>Amboseli & Kilimanjaro Views (4 Days)</option>
+          <option>Diani Beach & Mombasa Old Town (5 Days)</option>
+          <option>Lakes Nakuru & Bogoria (3 Days)</option>
+          <option>Mount Kenya Trek (6 Days)</option>
+          <option>Custom Itinerary</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Travel Date</label>
+          <input type="date">
+        </div>
+        <div class="form-group">
+          <label>Group Size</label>
+          <select>
+            <option>1 – Solo</option>
+            <option>2 – Couple</option>
+            <option>3–5 Small Group</option>
+            <option>6–10 Group</option>
+            <option>10+ Large Group</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Tell us about your ideal Kenya experience — any special requests, interests, or questions..."></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%;text-align:center;padding:1.1rem;" onclick="handleSubmit(this)">Send Enquiry →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo">Cotesa <span style="color:rgba(255,255,255,0.6)">Tours</span></a>
+      <p>Kenya's most trusted safari operator. Connecting travellers with the wild heart of East Africa since 2010.</p>
+      <div class="footer-socials">
+        <a href="#" class="social-btn">f</a>
+        <a href="#" class="social-btn">in</a>
+        <a href="#" class="social-btn">tw</a>
+        <a href="#" class="social-btn">ig</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Tours</h4>
+      <ul>
+        <li><a href="#tours">Masai Mara</a></li>
+        <li><a href="#tours">Amboseli</a></li>
+        <li><a href="#tours">Diani Coast</a></li>
+        <li><a href="#tours">Mount Kenya</a></li>
+        <li><a href="#tours">Rift Valley</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#why">Why Cotesa</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">Westlands, Nairobi</a></li>
+        <li><a href="tel:+254700000000">+254 700 000 000</a></li>
+        <li><a href="mailto:hello@cotesatours.co.ke">hello@cotesatours.co.ke</a></li>
+        <li><a href="#">WhatsApp Us</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Cotesa Tours. All rights reserved. Licensed by Tourism Regulatory Authority of Kenya.</span>
+    <span>Privacy Policy · Terms of Service</span>
+  </div>
+</footer>
+
+<script>
+  // ── CURSOR ──
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, .tour-card, .dest-card, .gal-item').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('big'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+  });
+
+  // ── HERO LOAD ──
+  window.addEventListener('load', () => {
+    document.getElementById('hero').classList.add('loaded');
+  });
+
+  // ── NAV SCROLL ──
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ── MOBILE MENU ──
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  // ── SCROLL REVEAL ──
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // ── COUNT UP ──
+  const countEls = document.querySelectorAll('[data-count]');
+  const countObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target;
+        const target = +el.dataset.count;
+        const suffix = target >= 1000 ? '+' : '+';
+        let current = 0;
+        const step = Math.ceil(target / 60);
+        const timer = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = target >= 1000
+            ? (current / 1000).toFixed(1) + 'k+'
+            : current + suffix;
+          if (current >= target) clearInterval(timer);
+        }, 25);
+        countObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  countEls.forEach(el => countObserver.observe(el));
+
+  // ── FORM SUBMIT ──
+  function handleSubmit(btn) {
+    btn.textContent = '✓ Enquiry Sent! We\'ll be in touch soon.';
+    btn.style.background = 'var(--sage)';
+    btn.disabled = true;
+  }
+</script>
+</body>
+</html>
