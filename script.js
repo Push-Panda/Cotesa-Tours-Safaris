@@ -1,9 +1,19 @@
 'use strict';
 
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function debounce(fn, wait = 40) {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => fn(...args), wait);
+  };
+}
+
 /* ─── CURSOR ─── */
 (function initCursor() {
   const cursor = document.getElementById('cursor');
-  if (window.matchMedia('(pointer: coarse)').matches) {
+  if (prefersReducedMotion || window.matchMedia('(pointer: coarse)').matches) {
     cursor.style.display = 'none';
     document.body.style.cursor = 'auto';
     return;
@@ -30,6 +40,11 @@
 
   // Set hero background image
   heroBg.style.backgroundImage = "url('images/Masai Mara.jpg')";
+  if (prefersReducedMotion) {
+    heroBg.style.transition = 'none';
+    hero.style.transition = 'none';
+    hero.classList.add('loaded');
+  }
 
   // fallback handler for any image load failures site-wide
   function setGlobalImageFallbacks() {
@@ -49,7 +64,8 @@
 (function initNav() {
   const nav = document.getElementById('mainNav');
   const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 50);
-  window.addEventListener('scroll', onScroll, { passive: true });
+  const debouncedOnScroll = debounce(onScroll, 40);
+  window.addEventListener('scroll', debouncedOnScroll, { passive: true });
   onScroll();
 })();
 
@@ -77,6 +93,11 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && menuOpen
 
 /* ─── SCROLL REVEAL ─── */
 function initReveal() {
+  if (prefersReducedMotion) {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+    return;
+  }
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -85,6 +106,7 @@ function initReveal() {
       }
     });
   }, { threshold: 0.1 });
+
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 }
 
@@ -273,6 +295,12 @@ function renderTours() {
         <button class="tour-book-btn" onclick="scrollToContact('${tour.name}')">Book Now</button>
       </div>
     `;
+
+    const tourImage = card.querySelector('.tour-card-img img');
+    if (tourImage) {
+      tourImage.addEventListener('load', () => tourImage.classList.add('loaded'));
+      tourImage.addEventListener('error', () => tourImage.classList.remove('loaded'));
+    }
 
     grid.appendChild(card);
   });

@@ -262,15 +262,20 @@ body { cursor: none; }
   line-height: .9;
   letter-spacing: -.01em;
   margin-bottom: .6rem;
-  text-shadow: 0 4px 48px rgba(0,0,0,.4);
+  color: #fef7e7;
+  text-shadow: 0 4px 48px rgba(0,0,0,.6);
 }
-.hero-h1 em { font-style: italic; color: var(--gold); }
+.hero-h1 em {
+  font-style: italic;
+  color: #ffdf8d;
+}
 .hero-sub {
   font-size: clamp(.9rem, 1.8vw, 1.2rem);
   font-weight: 300;
-  color: rgba(255,255,255,.75);
+  color: rgba(255,255,255,.95);
   letter-spacing: .06em;
   margin-bottom: 3rem;
+  text-shadow: 0 1px 14px rgba(0,0,0,.35);
 }
 .hero-btns {
   display: flex;
@@ -466,14 +471,18 @@ body { cursor: none; }
   position: relative;
   height: 224px;
   overflow: hidden;
-  background: var(--savanna);
+  background: linear-gradient(135deg, rgba(237,193,114,0.9), rgba(123,93,56,0.9)), var(--savanna);
   flex-shrink: 0;
 }
 .tour-card-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform .6s ease;
+  opacity: 0;
+  transition: opacity .4s ease, transform .6s ease;
+}
+.tour-card-img img.loaded {
+  opacity: 1;
 }
 .tour-card:hover .tour-card-img img { transform: scale(1.07); }
 .tour-badge {
@@ -1174,4 +1183,28 @@ body { cursor: none; }
 img {
   object-fit: cover;
   border-radius: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .hero-bg,
+  .hero-content,
+  .tour-card,
+  .dest-card,
+  .gallery-item,
+  .footer-socials,
+  .mobile-menu {
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .hero {
+    min-height: 450px;
+  }
 }
