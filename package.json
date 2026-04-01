@@ -1,0 +1,16 @@
+{
+  "name": "cotesa-tours",
+  "version": "1.0.0",
+  "description": "Cotesa Tours Kenya - Safari & Travel Packages Website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["safari", "kenya", "travel", "tours"],
+  "author": "Cotesa Tours",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
