@@ -10,6 +10,39 @@ function debounce(fn, wait = 40) {
   };
 }
 
+function normalizeImageURL(url) {
+  if (!url || typeof url !== 'string') return url;
+  // Keep absolute URLs intact (http, https, data, about, etc.)
+  if (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(url)) return url;
+
+  const parts = url.split('/').map(segment => {
+    try {
+      return encodeURIComponent(decodeURIComponent(segment));
+    } catch {
+      return encodeURIComponent(segment);
+    }
+  });
+  return parts.join('/');
+}
+
+function applyImageURLNormalization() {
+  const isSmallScreen = window.innerWidth < 768;
+  document.querySelectorAll('img').forEach(image => {
+    const src = image.getAttribute('src');
+    if (!src) return;
+    const normalized = normalizeImageURL(src);
+    if (normalized && normalized !== src) {
+      image.setAttribute('src', normalized);
+    }
+    // Set loading attribute based on screen size
+    if (isSmallScreen) {
+      image.setAttribute('loading', 'eager');
+    } else if (!image.hasAttribute('loading')) {
+      image.setAttribute('loading', 'lazy');
+    }
+  });
+}
+
 /* ─── CURSOR ─── */
 (function initCursor() {
   const cursor = document.getElementById('cursor');
@@ -38,8 +71,10 @@ function debounce(fn, wait = 40) {
   const hero   = document.getElementById('hero');
   hero.classList.add('loaded');
 
-  // Set hero background image
-  heroBg.style.backgroundImage = "url('images/Masai Mara.jpg')";
+  // Set hero background image only on desktop for performance
+  if (window.innerWidth > 768) {
+    heroBg.style.backgroundImage = `url('${normalizeImageURL('images/Masai Mara.jpg')}')`;
+  }
   if (prefersReducedMotion) {
     heroBg.style.transition = 'none';
     hero.style.transition = 'none';
@@ -52,7 +87,16 @@ function debounce(fn, wait = 40) {
       image.addEventListener('error', () => {
         if (!image.dataset.fallback) {
           image.dataset.fallback = 'true';
-          image.remove();
+          const src = image.getAttribute('src');
+          const normalized = normalizeImageURL(src);
+          if (normalized && normalized !== src) {
+            image.setAttribute('src', normalized);
+            return;
+          }
+          // Instead of removing, show a placeholder
+          image.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZSBub3QgYXZhaWxhYmxlPC90ZXh0Pjwvc3ZnPg==';
+        } else {
+          image.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZSBub3QgYXZhaWxhYmxlPC90ZXh0Pjwvc3ZnPg==';
         }
       });
     });
@@ -265,10 +309,12 @@ function renderTours() {
     const includeText = tour.includes ? tour.includes.map(item => `<li>${item}</li>`).join('') : '';
     const excludeText = tour.excludes ? tour.excludes.map(item => `<li>${item}</li>`).join('') : '';
     const detailsId = `tour-details-${index}`;
+    const imageSrc = normalizeImageURL(tour.image);
+    const loadingAttr = window.innerWidth < 768 ? 'eager' : 'lazy';
 
     card.innerHTML = `
       <div class="tour-card-img">
-        <img src="${tour.image}" alt="${tour.name}" loading="lazy">
+        <img src="${imageSrc}" alt="${tour.name}" loading="${loadingAttr}">
         ${tour.badge ? `<span class="tour-badge">${tour.badge}</span>` : ''}
       </div>
       <div class="tour-body">
@@ -290,7 +336,6 @@ function renderTours() {
             <span class="tour-meta-item">👥 ${tour.people}</span>
           </div>
           <p class="tour-price">${getPriceText(tour.priceUSD)} <small>/ person</small></p>
-          <p class="tour-currency-note">1 USD ≈ ${currencyRates[selectedCurrency].symbol}${(1 * currencyRates[selectedCurrency].rate).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
         </div>
         <button class="tour-book-btn" onclick="scrollToContact('${tour.name}')">Book Now</button>
       </div>
@@ -317,7 +362,14 @@ function setImageFallbacks() {
     if (!image.dataset.fallback) {
       image.dataset.fallback = 'true';
       image.addEventListener('error', () => {
-        image.remove();
+        const src = image.getAttribute('src');
+        const normalized = normalizeImageURL(src);
+        if (normalized && normalized !== src) {
+          image.setAttribute('src', normalized);
+          return;
+        }
+        // Show placeholder
+        image.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZSBub3QgYXZhaWxhYmxlPC90ZXh0Pjwvc3ZnPg==';
       });
     }
   });
@@ -405,6 +457,7 @@ function initCurrencySelector() {
   });
 }
 
+applyImageURLNormalization();
 renderTours();
 initCurrencySelector();
 
