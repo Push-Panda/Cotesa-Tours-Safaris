@@ -257,6 +257,17 @@ const toursData = [
     excludes: ['Tips', 'Personal items', 'Optional activities']
   },
   {
+    name: 'Taita Salt Lick Safari',
+    category: 'luxury',
+    priceUSD: 380,
+    duration: '4 Days',
+    people: 'Max 8',
+    image: 'images/Taita Salt lick.jpg',
+    desc: 'Explore the magnificent Taita Salt Lick sanctuary with exclusive game drives to spot elephants, buffalo, and rare wildlife at this iconic salt lick. Includes luxury accommodation, gourmet meals, and expert naturalist guides for an unforgettable experience.',
+    includes: ['Park entrance fees', 'Transport by safari van', 'Accommodation in luxury lodge', '3 meals daily', 'Bottled water', 'Game drives', 'Expert naturalist guide', 'Salt Lick viewpoint access'],
+    excludes: ['Tips for guides', 'Personal items', 'Drinks and souvenirs']
+  },
+  {
     name: 'Mount Kenya Trek',
     category: 'adventure',
     priceUSD: 416,
