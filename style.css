@@ -1060,6 +1060,90 @@ body { cursor: none; }
   cursor: not-allowed;
 }
 
+.booking-history {
+  background: rgba(255,255,255,.95);
+  border: 1px solid rgba(44,26,14,.1);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.history-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.history-title {
+  margin: .3rem 0 0;
+  font-size: 1.05rem;
+}
+.history-note {
+  margin: .85rem 0 1.2rem;
+  color: var(--text-2);
+  font-size: .92rem;
+  line-height: 1.6;
+}
+.history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: .85rem;
+}
+.history-item {
+  padding: 1rem;
+  border: 1px solid rgba(44,26,14,.1);
+  border-radius: var(--radius);
+  background: #fff;
+  display: grid;
+  gap: .45rem;
+}
+.history-item strong {
+  display: block;
+  font-size: .92rem;
+  color: var(--earth);
+}
+.history-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .5rem;
+  font-size: .82rem;
+  color: var(--text-2);
+}
+.history-status {
+  font-weight: 700;
+}
+.history-status.sent {
+  color: #1f8e3c;
+}
+.history-status.failed {
+  color: #c0392b;
+}
+.history-empty {
+  color: var(--text-2);
+  padding: 1rem;
+}
+.btn-clear-history {
+  border: 1px solid rgba(44,26,14,.15);
+  background: transparent;
+  color: var(--earth);
+  padding: .8rem 1rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
+}
+.btn-clear-history:hover {
+  background: rgba(44,26,14,.05);
+  border-color: rgba(44,26,14,.3);
+}
+
+@media (max-width: 768px) {
+  .history-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
 /* ═══════════════════════════════════════
    FOOTER
 ═══════════════════════════════════════ */

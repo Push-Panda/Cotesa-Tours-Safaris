@@ -1,6 +1,8 @@
 'use strict';
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mdapjlpl';
+const isFileProtocol = window.location.protocol === 'file:';
 
 function debounce(fn, wait = 40) {
   let timeout;
@@ -471,6 +473,123 @@ function initCurrencySelector() {
 applyImageURLNormalization();
 renderTours();
 initCurrencySelector();
+initBookingHistory();
+
+const bookingHistoryStorageKey = 'cotesaBookingHistory';
+
+function getBookingHistory() {
+  try {
+    return JSON.parse(localStorage.getItem(bookingHistoryStorageKey)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function saveBookingHistory(entries) {
+  localStorage.setItem(bookingHistoryStorageKey, JSON.stringify(entries));
+}
+
+function formatHistoryDate(timestamp) {
+  const date = new Date(timestamp);
+  return date.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+}
+
+function renderBookingHistory(entries) {
+  const list = document.getElementById('bookingHistoryList');
+  if (!list) return;
+  list.innerHTML = '';
+
+  if (!entries.length) {
+    list.innerHTML = '<li class="history-empty">No previous booking attempts yet.</li>';
+    return;
+  }
+
+  entries.slice(-10).reverse().forEach(entry => {
+    const item = document.createElement('li');
+    item.className = 'history-item';
+    item.innerHTML = `
+      <strong>${entry.tour || 'No tour selected'}</strong>
+      <div class="history-meta">
+        <span>${formatHistoryDate(entry.timestamp)}</span>
+        <span>${entry.name || 'Anonymous'}</span>
+        <span>${entry.email || 'No email'}</span>
+        <span class="history-status ${entry.status === 'Sent' ? 'sent' : 'failed'}">${entry.status}</span>
+      </div>
+    `;
+    list.appendChild(item);
+  });
+}
+
+function mergeServerAndLocalHistory(serverEntries) {
+  const localEntries = getBookingHistory();
+  const entriesMap = new Map();
+
+  [...localEntries, ...serverEntries].forEach(entry => {
+    const key = `${entry.timestamp}-${entry.email}-${entry.tour}-${entry.status}`;
+    if (!entriesMap.has(key)) {
+      entriesMap.set(key, entry);
+    }
+  });
+
+  const merged = Array.from(entriesMap.values()).slice(-20);
+  saveBookingHistory(merged);
+  return merged;
+}
+
+function fetchBookingHistoryFromServer() {
+  if (isFileProtocol) return Promise.resolve([]);
+  return fetch('/history')
+    .then(response => {
+      if (!response.ok) throw new Error('History endpoint unavailable');
+      return response.json();
+    })
+    .then(result => Array.isArray(result.entries) ? result.entries : [])
+    .catch(() => []);
+}
+
+function saveBookingHistoryToServer(entry) {
+  if (isFileProtocol) return Promise.resolve(null);
+  return fetch('/history', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(entry)
+  })
+  .then(response => {
+    if (!response.ok) throw new Error('History endpoint unavailable');
+    return response.json();
+  })
+  .then(result => result.success ? result.entry : null)
+  .catch(() => null);
+}
+
+function addBookingHistoryEntry(entry) {
+  const entries = getBookingHistory();
+  entries.push(entry);
+  saveBookingHistory(entries.slice(-20));
+  renderBookingHistory(entries);
+  saveBookingHistoryToServer(entry).then(serverEntry => {
+    if (serverEntry) {
+      const merged = mergeServerAndLocalHistory([serverEntry]);
+      renderBookingHistory(merged);
+    }
+  });
+}
+
+function clearBookingHistory() {
+  localStorage.removeItem(bookingHistoryStorageKey);
+  renderBookingHistory([]);
+}
+
+function initBookingHistory() {
+  const clearBtn = document.getElementById('clearHistoryBtn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', clearBookingHistory);
+  }
+  fetchBookingHistoryFromServer().then(serverEntries => {
+    const merged = mergeServerAndLocalHistory(serverEntries);
+    renderBookingHistory(merged);
+  });
+}
 
 /* ─── COUNTER ANIMATION ─── */
 (function initCounters() {
@@ -524,6 +643,13 @@ function scrollToContact(tourName) {
   const statusMsg  = document.getElementById('formStatus');
 
   if (!form) return;
+  console.log('initForm: enquiry form found', form);
+
+  function getTourName(tourValue) {
+    const tourSelect = document.getElementById('tourSelect');
+    const selectedOption = tourSelect.querySelector(`option[value="${tourValue}"]`);
+    return selectedOption ? selectedOption.textContent : tourValue;
+  }
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -536,38 +662,113 @@ function scrollToContact(tourName) {
     if (!firstName) { showStatus('Please enter your first name.', 'error'); form.firstName.focus(); return; }
     if (!email || !emailRe.test(email)) { showStatus('Please enter a valid email address.', 'error'); form.email.focus(); return; }
 
-    // Submit form
+    // Submit form to Formspree
     submitBtn.disabled = true;
     submitBtn.querySelector('span').textContent = 'Sending…';
 
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData);
+    const formData = {
+      firstName: form.firstName.value.trim(),
+      lastName: form.lastName.value.trim(),
+      email: form.email.value.trim(),
+      phone: form.phone.value.trim(),
+      tour: form.tour.value,
+      travelDate: form.travelDate.value,
+      groupSize: form.groupSize.value,
+      message: form.message.value.trim(),
+      submittedAt: new Date().toISOString()
+    };
 
-    fetch('/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    })
-    .then(response => response.json())
-    .then(result => {
-      if (result.success) {
-        submitBtn.querySelector('span').textContent = '✓ Enquiry Sent!';
-        showStatus(result.message, 'success');
-        form.reset();
-      } else {
-        throw new Error('Submission failed');
+    console.log('📤 Submitting form data to Formspree:', formData);
+    console.log('🔗 Endpoint:', FORMSPREE_ENDPOINT);
+
+    let attempts = 0;
+    const maxAttempts = 3;
+    let success = false;
+
+    async function attemptSubmit() {
+      attempts++;
+      console.log(`🔄 Attempt ${attempts}/${maxAttempts} to submit form`);
+
+      try {
+        const payload = {
+          name: `${formData.firstName} ${formData.lastName}`,
+          email: formData.email,
+          phone: formData.phone,
+          tour: getTourName(formData.tour),
+          travelDate: formData.travelDate,
+          groupSize: formData.groupSize,
+          message: formData.message,
+          submittedAt: formData.submittedAt,
+          _subject: `New Booking Enquiry - ${formData.firstName} ${formData.lastName}`,
+          _replyto: formData.email
+        };
+        
+        console.log('📬 Payload:', payload);
+
+        const response = await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        console.log('✉️ Response status:', response.status, response.statusText);
+
+        // Formspree returns 200 on success (some forms return 302 redirect)
+        // Accept any 2xx or 3xx status as success
+        if (response.ok || (response.status >= 300 && response.status < 400)) {
+          console.log('✅ Success! Response indicates successful submission');
+          success = true;
+          submitBtn.querySelector('span').textContent = '✓ Enquiry Sent!';
+          showStatus('Thank you! We will contact you shortly.', 'success');
+          addBookingHistoryEntry({
+            timestamp: new Date().toISOString(),
+            tour: getTourName(formData.tour),
+            name: `${formData.firstName} ${formData.lastName}`.trim(),
+            email: formData.email,
+            status: 'Sent'
+          });
+          form.reset();
+          return true;
+        } else {
+          // Log response body for debugging
+          const text = await response.text();
+          console.log('✉️ Response body:', text);
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+      } catch (error) {
+        console.error(`❌ Attempt ${attempts} failed:`, error.message);
+        if (attempts < maxAttempts) {
+          const delay = attempts * 1500;
+          console.log(`⏳ Retrying in ${delay}ms...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+          return attemptSubmit();
+        } else {
+          throw error;
+        }
       }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      showStatus('Something went wrong. Please try again.', 'error');
-    })
-    .finally(() => {
+    }
+
+    // Start submission
+    attemptSubmit().catch(error => {
+      console.error('❌ All attempts failed. Final error:', error);
+      const message = 'Sorry, there was an error. Please try again or contact us directly at cotesasafaris@gmail.com or WhatsApp +254 106 642 182';
+      showStatus(message, 'error');
+      addBookingHistoryEntry({
+        timestamp: new Date().toISOString(),
+        tour: getTourName(formData.tour),
+        name: `${formData.firstName} ${formData.lastName}`.trim(),
+        email: formData.email,
+        status: 'Failed'
+      });
+    }).finally(() => {
       setTimeout(() => {
         submitBtn.disabled = false;
         submitBtn.querySelector('span').textContent = 'Send Enquiry';
         hideStatus();
-      }, 5000);
+      }, 3000);
     });
   });
 

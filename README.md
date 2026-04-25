@@ -27,6 +27,8 @@ A modern, responsive website for Cotesa Tours, showcasing authentic Kenya safari
 2. Start the server: `npm start`
 3. Open `http://localhost:3000` in your browser
 
+> Note: The booking/contact form requires the local server and will not work if you open `index.html` directly with `file://`.
+
 ## Technologies Used
 
 - HTML5

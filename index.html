@@ -12,6 +12,36 @@
 <link rel="preload" href="images/Logo.jpg" as="image">
 <link rel="stylesheet" href="style.css">
 
+<style>
+    /* Hero Background - Added inline for reliability */
+    .hero-bg {
+        background-image: url('images/Masai Mara.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+    .hero-bg::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
+        z-index: 1;
+    }
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+</style>
+<base target="_blank">
 </head>
 <body>
 
@@ -81,19 +111,19 @@
   <!-- ── STATS ── -->
   <div class="stats-bar" role="region" aria-label="Company statistics">
     <div class="stat-item reveal">
-      <span class="stat-number" data-target="4">0</span>
+      <span class="stat-number" data-target="4">4</span>
       <span class="stat-label">Years Experience</span>
     </div>
     <div class="stat-item reveal delay-1">
-      <span class="stat-number" data-target="4800">0</span>
+      <span class="stat-number" data-target="4800">4,800</span>
       <span class="stat-label">Happy Travellers</span>
     </div>
     <div class="stat-item reveal delay-2">
-      <span class="stat-number" data-target="28">0</span>
+      <span class="stat-number" data-target="28">28</span>
       <span class="stat-label">Safari Routes</span>
     </div>
     <div class="stat-item reveal delay-3">
-      <span class="stat-number" data-target="12">0</span>
+      <span class="stat-number" data-target="12">12</span>
       <span class="stat-label">National Parks</span>
     </div>
   </div>
@@ -390,7 +420,21 @@
       </div>
 
       <div class="reveal delay-1">
-        <form id="enquiryForm" novalidate>
+        <div class="booking-history" aria-label="Recent booking attempts">
+          <div class="history-header">
+            <div>
+              <p class="section-tag">Booking History</p>
+              <h3 class="section-title history-title">Recent Booking Attempts</h3>
+            </div>
+            <button type="button" class="btn-clear-history" id="clearHistoryBtn">Clear history</button>
+          </div>
+          <p class="history-note">Your recent booking attempts are stored locally on this device and help you track what you submitted.</p>
+          <ul id="bookingHistoryList" class="history-list">
+            <li class="history-empty">No previous booking attempts yet.</li>
+          </ul>
+        </div>
+        <form id="enquiryForm" action="https://formspree.io/f/mdapjlpl" method="POST" novalidate>
+          <input type="hidden" name="_subject" value="New Booking Enquiry - Cotesa Tours & Safaris">
           <div class="form-row">
             <div class="form-field">
               <label for="firstName">First Name <span aria-hidden="true">*</span></label>
@@ -497,7 +541,7 @@
         <ul>
           <li><a href="https://maps.google.com/?q=Westlands,Nairobi" target="_blank" rel="noopener">Westlands, Nairobi</a></li>
           <li><a href="tel:+254106642182">+254 106 642 182</a></li>
-          <li><a href="mailto:hello@cotesatours.co.ke">hello@cotesatours.co.ke</a></li>
+          <li><a href="mailto:cotesasafaris@gmail.com">cotesasafaris@gmail.com</a></li>
           <li><a href="https://wa.me/254106642182" target="_blank" rel="noopener">WhatsApp Us</a></li>
         </ul>
       </div>
