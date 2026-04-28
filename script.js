@@ -290,7 +290,41 @@ const toursData = [
     image: 'images/Samburu & Shaba Reserve.jpg',
     desc: '5-day northern safari focusing on rare species: Grevy\'s zebra, reticulated giraffe, Somali ostrich, and desert-adapted elephant. Includes guided walks, river-side game drives on the Ewaso Ng\'iro, Samburu community village visit, and optional birding session at Buffalo Springs.',
     includes: ['Park entrance fees', 'Accommodation in safari lodges', 'All meals and bottled water', 'Guided walks and game drives', 'Samburu village visit and professional guide'],
-    excludes: ['Tips for guides', 'Optional birding session', 'Personal items and souvenirs']  }
+    excludes: ['Tips for guides', 'Optional birding session', 'Personal items and souvenirs']
+  },
+  {
+    name: '7 Days Bali Experience',
+    category: 'international',
+    priceUSD: 850,
+    duration: '7 Days',
+    people: 'Max 12',
+    image: 'images/7 Days Bali Experience.jpg',
+    desc: 'Discover the beauty of Bali with luxury resort accommodation, cultural temple visits, scenic rice terraces, water activities, and relaxing beach experiences across the island.',
+    includes: ['Return flights', '6 nights accommodation', 'Airport transfers', 'Daily breakfast', 'Guided island tours', 'Ubud rice terraces visit', 'Water temple excursion', 'Sunset beach dinner', 'Professional tour guide'],
+    excludes: ['Visa fees', 'Lunch and dinner unless stated', 'Personal expenses', 'Optional activities', 'Travel insurance']
+  },
+  {
+    name: '6 Days Cape Town Escape',
+    category: 'international',
+    priceUSD: 750,
+    duration: '6 Days',
+    people: 'Max 10',
+    image: 'images/6 Days Cape Town Escape.jpg',
+    desc: 'Explore the charm of Cape Town with scenic coastal drives, Table Mountain views, wine tasting, city tours, and unforgettable experiences along South Africa\'s famous coastline.',
+    includes: ['Return flights', '5 nights accommodation', 'Airport transfers', 'Daily breakfast', 'City sightseeing tour', 'Table Mountain cable car', 'Cape Peninsula tour', 'Wine tasting experience', 'Professional driver guide'],
+    excludes: ['Visa fees', 'Lunch and dinner', 'Personal shopping', 'Optional excursions', 'Travel insurance']
+  },
+  {
+    name: '5 Days Zanzibar Beach Holiday',
+    category: 'international',
+    priceUSD: 650,
+    duration: '5 Days',
+    people: 'Max 12',
+    image: 'images/5 Days Zanzibar Beach Holiday.webp',
+    desc: 'Enjoy a tropical island escape in Zanzibar with white sandy beaches, luxury accommodation, historic Stone Town, spice farm tours, and breathtaking ocean sunsets.',
+    includes: ['Return flights', '4 nights accommodation', 'Airport transfers', 'Daily breakfast', 'Stone Town tour', 'Spice farm visit', 'Beach relaxation package', 'Professional guide'],
+    excludes: ['Visa fees', 'Lunch and dinner', 'Personal expenses', 'Optional water sports', 'Travel insurance']
+  }
 ];
 
 const currencyRates = {
@@ -314,6 +348,14 @@ function renderTours() {
   grid.innerHTML = '';
 
   toursData.forEach((tour, index) => {
+    // Add INTERNATIONAL PACKAGES title before the first international package
+    if (tour.category === 'international' && (index === 0 || toursData[index - 1].category !== 'international')) {
+      const titleDiv = document.createElement('div');
+      titleDiv.className = 'international-title reveal';
+      titleDiv.innerHTML = '<h3>INTERNATIONAL PACKAGES</h3>';
+      grid.appendChild(titleDiv);
+    }
+
     const delayClass = `delay-${(index % 3) + 1}`;
     const card = document.createElement('article');
     card.className = `tour-card reveal ${delayClass}`;

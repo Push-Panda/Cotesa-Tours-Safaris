@@ -1,20 +1,29 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>COTESA TOURS & SAFARIS Kenya — Safari & Travel Packages</title>
-<meta name="description" content="Authentic Kenya safari experiences with COTESA TOURS & SAFARIS. Discover wildlife, culture, and adventure in Maasai Mara, Amboseli, and more. Book your dream safari today.">
-<meta name="keywords" content="Kenya safari, Maasai Mara, wildlife tours, Amboseli, Tsavo, Lake Nakuru, Mount Kenya, Diani Beach, Cotesa Tours">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
-<link rel="preload" href="images/Logo.jpg" as="image">
-<link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>COTESA TOURS & SAFARIS Kenya — Safari & Travel Packages</title>
+    <meta
+      name="description"
+      content="Authentic Kenya safari experiences with COTESA TOURS & SAFARIS. Discover wildlife, culture, and adventure in Maasai Mara, Amboseli, and more. Book your dream safari today."
+    />
+    <meta
+      name="keywords"
+      content="Kenya safari, Maasai Mara, wildlife tours, Amboseli, Tsavo, Lake Nakuru, Mount Kenya, Diani Beach, Cotesa Tours"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preload" href="images/Logo.jpg" as="image" />
+    <link rel="stylesheet" href="style.css" />
 
-<style>
-    /* Hero Background - Added inline for reliability */
-    .hero-bg {
+    <style>
+      /* Hero Background - Added inline for reliability */
+      .hero-bg {
         background-image: url('images/Masai Mara.jpg');
         background-size: cover;
         background-position: center;
@@ -25,537 +34,939 @@
         top: 0;
         left: 0;
         z-index: -1;
-    }
-    .hero-bg::after {
+      }
+      .hero-bg::after {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0.3) 0%,
+          rgba(0, 0, 0, 0.5) 100%
+        );
         z-index: 1;
-    }
-    .hero-content {
+      }
+      .hero-content {
         position: relative;
         z-index: 2;
-    }
-</style>
-<base target="_blank">
-</head>
-<body>
+      }
+    </style>
+    <base target="_blank" />
+  </head>
+  <body>
+    <!-- Accessibility: skip to main content -->
+    <a href="#main" class="skip-link">Skip to main content</a>
 
-<!-- Accessibility: skip to main content -->
-<a href="#main" class="skip-link">Skip to main content</a>
+    <!-- Custom Cursor -->
+    <div id="cursor" aria-hidden="true"></div>
 
-<!-- Custom Cursor -->
-<div id="cursor" aria-hidden="true"></div>
+    <!-- ═══ MOBILE MENU ═══ -->
+    <nav
+      class="mob-menu"
+      id="mobMenu"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Mobile navigation"
+    >
+      <a href="#about" onclick="closeMobileMenu()">About</a>
+      <a href="#tours" onclick="closeMobileMenu()">Tours</a>
+      <a href="#destinations" onclick="closeMobileMenu()">Destinations</a>
+      <a href="#why" onclick="closeMobileMenu()">Why Us</a>
+      <a href="#testimonials" onclick="closeMobileMenu()">Reviews</a>
+      <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+    </nav>
 
-<!-- ═══ MOBILE MENU ═══ -->
-<nav class="mob-menu" id="mobMenu" role="dialog" aria-modal="true" aria-label="Mobile navigation">
-  <a href="#about"        onclick="closeMobileMenu()">About</a>
-  <a href="#tours"        onclick="closeMobileMenu()">Tours</a>
-  <a href="#destinations" onclick="closeMobileMenu()">Destinations</a>
-  <a href="#why"          onclick="closeMobileMenu()">Why Us</a>
-  <a href="#testimonials" onclick="closeMobileMenu()">Reviews</a>
-  <a href="#contact"      onclick="closeMobileMenu()">Contact</a>
-</nav>
-
-<!-- ═══ NAV ═══ -->
-<header class="nav" id="mainNav" role="banner">
-  <a href="#" class="nav-logo" aria-label="Cotesa Tours & Safaris – Home"><img src="images/Logo.jpg" alt="Cotesa Tours & Safaris Logo" style="height: 40px; margin-right: 10px;">COTESA TOURS & SAFARIS</a>
-  <nav aria-label="Primary navigation">
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#tours">Tours</a></li>
-      <li><a href="#destinations">Destinations</a></li>
-      <li><a href="#why">Why Us</a></li>
-      <li><a href="#testimonials">Reviews</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-  <a href="#contact" class="nav-cta">Book Now</a>
-  <button
-    class="hamburger"
-    id="hamburger"
-    aria-label="Open menu"
-    aria-expanded="false"
-    aria-controls="mobMenu"
-    onclick="toggleMobileMenu()"
-  >
-    <span></span><span></span><span></span>
-  </button>
-</header>
-
-<!-- ═══ MAIN CONTENT ═══ -->
-<main id="main">
-
-  <!-- ── HERO ── -->
-  <section class="hero" id="hero" aria-label="Hero banner">
-    <div class="hero-bg" id="heroBg" role="img" aria-label="Wildebeest migration at Masai Mara"></div>
-    <div class="hero-content">
-      <div class="hero-eyebrow" aria-hidden="true">Nairobi, Kenya — Est. 2023</div>
-      <h1 class="hero-h1">Discover Wild<br><em>Kenya</em></h1>
-      <p class="hero-sub">Authentic safari experiences, curated for the curious traveller</p>
-      <div class="hero-btns">
-        <a href="#tours" class="btn-primary">Explore Tours</a>
-        <a href="#about" class="btn-outline">Our Story</a>
-      </div>
-    </div>
-    <div class="hero-scroll" aria-hidden="true">
-      <div class="hero-scroll-line"></div>
-      <span>Scroll</span>
-    </div>
-  </section>
-
-  <!-- ── STATS ── -->
-  <div class="stats-bar" role="region" aria-label="Company statistics">
-    <div class="stat-item reveal">
-      <span class="stat-number" data-target="4">4</span>
-      <span class="stat-label">Years Experience</span>
-    </div>
-    <div class="stat-item reveal delay-1">
-      <span class="stat-number" data-target="4800">4,800</span>
-      <span class="stat-label">Happy Travellers</span>
-    </div>
-    <div class="stat-item reveal delay-2">
-      <span class="stat-number" data-target="28">28</span>
-      <span class="stat-label">Safari Routes</span>
-    </div>
-    <div class="stat-item reveal delay-3">
-      <span class="stat-number" data-target="12">12</span>
-      <span class="stat-label">National Parks</span>
-    </div>
-  </div>
-
-  <!-- ── TOURS ── -->
-  <section class="section tours-section" id="tours" aria-labelledby="tours-heading">
-    <div class="container">
-      <div class="reveal">
-        <p class="section-tag">Our Packages</p>
-        <h2 class="section-title" id="tours-heading">Safari Tours &amp; <em>Adventures</em></h2>
-        <p class="section-lead">Handpicked Kenya experiences designed around what moves you — wildlife, culture, or coast.</p>
-      </div>
-
-      <div class="currency-switcher reveal" style="margin: 1rem 0; display: flex; align-items: center; gap: .6rem;">
-        <label for="currencySelect" style="font-weight: 600;color: var(--earth);">Currency</label>
-        <select id="currencySelect" aria-label="Select currency" style="border:1px solid var(--border);border-radius:var(--radius);padding:.45rem .75rem;">
-          <option value="USD">USD</option>
-          <option value="EUR">EUR</option>
-          <option value="GBP">GBP</option>
-          <option value="KES">KES</option>
-        </select>
-      </div>
-
-      <div class="filter-tabs reveal" role="group" aria-label="Filter tours by category">
-        <button class="filter-tab active" data-filter="all">All Packages</button>
-        <button class="filter-tab" data-filter="day">Day Trips</button>
-        <button class="filter-tab" data-filter="group">Group Joining</button>
-        <button class="filter-tab" data-filter="luxury">Luxury Private</button>
-        <button class="filter-tab" data-filter="adventure">Adventure</button>
-      </div>
-
-      <div class="tours-grid" id="toursGrid">
-        <!-- Dynamically generated tour cards will be injected here by script.js -->
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ── ABOUT ── -->
-  <section class="section about-section" id="about" aria-labelledby="about-heading">
-    <div class="container about-grid">
-      <div class="about-photos reveal">
-        <div class="about-badge" aria-hidden="true">
-          <strong>4</strong>
-          <span>Years</span>
-        </div>
-      </div>
-      <div class="about-text reveal delay-1">
-        <p class="section-tag">Our Story</p>
-        <h2 class="section-title" id="about-heading">Kenya is Our<br><em>Home &amp; Passion</em></h2>
-        <p class="section-lead">We don't just show you Kenya — we share it the way we know it best: intimately, honestly, unforgettably.</p>
-        <p>Founded in Nairobi in 2023, Cotesa Tours was built on a single belief: the best safari is led by people who were born in this landscape, who understand its rhythms, speak its languages, and feel it in their bones.</p>
-        <p>From the Masai Mara to the Aberdare forests, from Diani Beach to Lake Nakuru — every itinerary carries the knowledge of our guides and the warmth of our people.</p>
-        <div class="about-features">
-          <div class="about-feat">Expert Local Guides</div>
-          <div class="about-feat">Small Group Sizes</div>
-          <div class="about-feat">Eco-Responsible Travel</div>
-          <div class="about-feat">24/7 Guest Support</div>
-          <div class="about-feat">Custom Itineraries</div>
-          <div class="about-feat">Airport Transfers</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── DESTINATIONS ── -->
-  <section class="section destinations-section" id="destinations" aria-labelledby="dest-heading">
-    <div class="container">
-      <div class="reveal">
-        <p class="section-tag">Where We Go</p>
-        <h2 class="section-title" id="dest-heading">Kenya's Most <em>Iconic Places</em></h2>
-      </div>
-      <div class="dest-grid">
-        <div class="dest-card reveal">
-          <div class="dest-img-box">
-            <img src="images/Masai Mara.jpg" alt="Masai Mara" loading="lazy">
-          </div>
-          <p class="dest-name">Masai Mara</p>
-          <p class="dest-count">6 tours</p>
-        </div>
-        <div class="dest-card reveal delay-1">
-          <div class="dest-img-box">
-            <img src="images/Amboseli National Park Day Trip.jpg" alt="Amboseli" loading="lazy">
-          </div>
-          <p class="dest-name">Amboseli</p>
-          <p class="dest-count">4 tours</p>
-        </div>
-        <div class="dest-card reveal delay-2">
-          <div class="dest-img-box">
-            <img src="images/Diani Coast.jpg" alt="Diani Coast" loading="lazy">
-          </div>
-          <p class="dest-name">Diani Coast</p>
-          <p class="dest-count">3 tours</p>
-        </div>
-        <div class="dest-card reveal delay-3">
-          <div class="dest-img-box">
-            <img src="images/Tsavo.jpg" alt="Tsavo" loading="lazy">
-          </div>
-          <p class="dest-name">Tsavo</p>
-          <p class="dest-count">5 tours</p>
-        </div>
-        <div class="dest-card reveal">
-          <div class="dest-img-box">
-            <img src="images/Lake Naivasha + Hell’s Gate Day Trip.jpg" alt="Lake Nakuru" loading="lazy">
-          </div>
-          <p class="dest-name">Lake Nakuru</p>
-          <p class="dest-count">3 tours</p>
-        </div>        <div class="dest-card reveal delay-1">
-          <div class="dest-img-box">
-            <img src="images/Taita Salt lick.jpg" alt="Taita Salt Lick" loading="lazy">
-          </div>
-          <p class="dest-name">Taita Salt Lick</p>
-          <p class="dest-count">2 tours</p>
-        </div>      </div>
-    </div>
-  </section>
-
-  <!-- ── WHY US ── -->
-  <section class="section why-section" id="why" aria-labelledby="why-heading">
-    <div class="container">
-      <p class="section-tag">Why Cotesa</p>
-      <h2 class="section-title" id="why-heading">Travel Better. <em>Go Deeper.</em></h2>
-      <div class="why-grid">
-        <div class="why-card reveal">
-          <span class="why-icon" aria-hidden="true">🦁</span>
-          <h3 class="why-h">Born in the Bush</h3>
-          <p class="why-p">Our guides grew up in and around Kenya's national parks. Their knowledge isn't from a textbook — it's lived, inherited, and deeply personal.</p>
-        </div>
-        <div class="why-card reveal delay-1">
-          <span class="why-icon" aria-hidden="true">🌿</span>
-          <h3 class="why-h">Eco-Responsible</h3>
-          <p class="why-p">We partner only with lodges and camps that practise low-impact tourism and actively support wildlife conservation and local communities.</p>
-        </div>
-        <div class="why-card reveal delay-2">
-          <span class="why-icon" aria-hidden="true">✦</span>
-          <h3 class="why-h">Tailored Itineraries</h3>
-          <p class="why-p">No two trips are the same. We design every journey around you — your pace, your interests, your idea of the perfect Kenya experience.</p>
-        </div>
-        <div class="why-card reveal delay-3">
-          <span class="why-icon" aria-hidden="true">🛡️</span>
-          <h3 class="why-h">Safe &amp; Supported</h3>
-          <p class="why-p">Licensed by the Tourism Regulatory Authority of Kenya. 24/7 in-country support, fully insured vehicles, and first-aid trained guides on every tour.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── TESTIMONIALS ── -->
-  <section class="section testimonials-section" id="testimonials" aria-labelledby="testi-heading">
-    <div class="container">
-      <div class="reveal" style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1.5rem">
-        <div>
-          <p class="section-tag">Guest Reviews</p>
-          <h2 class="section-title" id="testi-heading">What Travellers <em>Say About Us</em></h2>
-        </div>
-        <p class="section-lead" style="max-width:280px;margin-top:0">Real words from people who came to Kenya and left changed.</p>
-      </div>
-    </div>
-    <div class="testi-carousel" role="region" aria-label="Customer testimonials">
-      <div class="testi-track">
-        <!-- Set 1 -->
-        <div class="testi-card">
-          <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testi-quote">The Great Migration was beyond anything I could have imagined. Our guide James knew exactly where to position us — we watched the crossing for three hours. Absolutely life-changing.</p>
-          <div class="testi-author">
-            <div><p class="testi-name">Sarah Mitchell</p><p class="testi-origin">Toronto, Canada</p></div>
-          </div>
-        </div>
-        <div class="testi-card">
-          <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testi-quote">Cotesa made everything seamless. From airport pickup to the last game drive, every detail was handled with care. The small group size meant genuinely personal attention.</p>
-          <div class="testi-author">
-            <div><p class="testi-name">Marco Ricci</p><p class="testi-origin">Milan, Italy</p></div>
-          </div>
-        </div>
-        <div class="testi-card">
-          <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testi-quote">I've done safaris in Tanzania and South Africa, and this was the best. The guides' knowledge of animal behaviour is extraordinary — they found the leopard in a tree nobody else could spot.</p>
-          <div class="testi-author">
-            <div><p class="testi-name">Amara Osei</p><p class="testi-origin">Accra, Ghana</p></div>
-          </div>
-        </div>
-        <div class="testi-card">
-          <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testi-quote">The Diani Beach extension was perfect. Five days of wildlife followed by five days of ocean — Cotesa handled it all flawlessly. Already planning our return trip.</p>
-          <div class="testi-author">
-            <div><p class="testi-name">Priya Nair</p><p class="testi-origin">Mumbai, India</p></div>
-          </div>
-        </div>
-        <div class="testi-card">
-          <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
-          <p class="testi-quote">As a solo female traveller, safety was my first concern. Cotesa made me feel completely secure throughout. Professional, warm, and genuinely great company.</p>
-          <div class="testi-author">
-            <div><p class="testi-name">Hanna Björk</p><p class="testi-origin">Stockholm, Sweden</p></div>
-          </div>
-        </div>
-        <!-- Duplicate for seamless loop -->
-        <div class="testi-card" aria-hidden="true">
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-quote">The Great Migration was beyond anything I could have imagined. Our guide James knew exactly where to position us — we watched the crossing for three hours. Absolutely life-changing.</p>
-          <div class="testi-author">
-            <div><p class="testi-name">Sarah Mitchell</p><p class="testi-origin">Toronto, Canada</p></div>
-          </div>
-        </div>
-        <div class="testi-card" aria-hidden="true">
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-quote">Cotesa made everything seamless. From airport pickup to the last game drive, every detail was handled with care. The small group size meant genuinely personal attention.</p>
-          <div class="testi-author">
-            <div><p class="testi-name">Marco Ricci</p><p class="testi-origin">Milan, Italy</p></div>
-          </div>
-        </div>
-        <div class="testi-card" aria-hidden="true">
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-quote">I've done safaris in Tanzania and South Africa, and this was the best. The guides' knowledge of animal behaviour is extraordinary — they found the leopard in a tree nobody else could spot.</p>
-          <div class="testi-author">
-            <div><p class="testi-name">Amara Osei</p><p class="testi-origin">Accra, Ghana</p></div>
-          </div>
-        </div>
-        <div class="testi-card" aria-hidden="true">
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-quote">The Diani Beach extension was perfect. Five days of wildlife followed by five days of ocean — Cotesa handled it all flawlessly. Already planning our return trip.</p>
-          <div class="testi-author">
-            <div><p class="testi-name">Priya Nair</p><p class="testi-origin">Mumbai, India</p></div>
-          </div>
-        </div>
-        <div class="testi-card" aria-hidden="true">
-          <div class="testi-stars">★★★★★</div>
-          <p class="testi-quote">As a solo female traveller, safety was my first concern. Cotesa made me feel completely secure throughout. Professional, warm, and genuinely great company.</p>
-          <div class="testi-author">
-            <div><p class="testi-name">Hanna Björk</p><p class="testi-origin">Stockholm, Sweden</p></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── GALLERY ── -->
-  <section class="section gallery-section" aria-labelledby="gallery-heading">
-    <div class="container">
-      <div class="reveal">
-        <p class="section-tag">Kenya Through Our Lenses</p>
-        <h2 class="section-title" id="gallery-heading">Capturing the <em>Wild Beauty</em></h2>
-        <p class="section-lead">Every image tells a story of Kenya's untamed landscapes, diverse wildlife, and vibrant cultures.</p>
-      </div>
-      <div class="gallery-grid reveal">
-        <div class="gallery-item">
-          <img src="images/Masai Mara.jpg" alt="Masai Mara sunset" loading="lazy">
-        </div>
-        <div class="gallery-item">
-          <img src="images/Amboseli National Park Day Trip.jpg" alt="Amboseli elephants" loading="lazy">
-        </div>
-        <div class="gallery-item">
-          <img src="images/Diani Beach Escape.jpg" alt="Diani Beach" loading="lazy">
-        </div>
-        <div class="gallery-item">
-          <img src="images/Lake Naivasha + Hell’s Gate Day Trip.jpg" alt="Lake Naivasha" loading="lazy">
-        </div>
-        <div class="gallery-item">
-          <img src="images/Samburu & Shaba Reserve.jpg" alt="Samburu wildlife" loading="lazy">
-        </div>
-        <div class="gallery-item">
-          <img src="images/harshil-gudka-QYuRIa7NXfQ-unsplash.jpg" alt="Mountain landscape" loading="lazy">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── CONTACT ── -->
-  <section class="section contact-section" id="contact" aria-labelledby="contact-heading">
-    <div class="container contact-grid">
-
-      <div class="reveal">
-        <p class="section-tag">Get In Touch</p>
-        <h2 class="section-title" id="contact-heading">Plan Your <em>Kenya Journey</em></h2>
-        <p>Ready to experience Kenya with people who know it best? Tell us about your dream trip and we'll craft the perfect itinerary.</p>
-        <div class="contact-details">
-          <div class="contact-item">
-            <div class="contact-icon" aria-hidden="true">📍</div>
-            <div><strong>Address</strong><span>Westlands, Nairobi, Kenya</span></div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon" aria-hidden="true">📞</div>
-            <div><strong>Phone / WhatsApp</strong><a href="tel:+254106642182">+254 106 642 182</a></div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon" aria-hidden="true">✉️</div>
-            <div><strong>Email</strong><a href="mailto:hello@cotesatours.co.ke">hello@cotesatours.co.ke</a></div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon" aria-hidden="true">🕐</div>
-            <div><strong>Office Hours</strong><span>Mon – Sat, 8:00 AM – 6:00 PM EAT</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="reveal delay-1">
-        <div class="booking-history" aria-label="Recent booking attempts">
-          <div class="history-header">
-            <div>
-              <p class="section-tag">Booking History</p>
-              <h3 class="section-title history-title">Recent Booking Attempts</h3>
-            </div>
-            <button type="button" class="btn-clear-history" id="clearHistoryBtn">Clear history</button>
-          </div>
-          <p class="history-note">Your recent booking attempts are stored locally on this device and help you track what you submitted.</p>
-          <ul id="bookingHistoryList" class="history-list">
-            <li class="history-empty">No previous booking attempts yet.</li>
-          </ul>
-        </div>
-        <form id="enquiryForm" action="https://formspree.io/f/mdapjlpl" method="POST" novalidate>
-          <input type="hidden" name="_subject" value="New Booking Enquiry - Cotesa Tours & Safaris">
-          <div class="form-row">
-            <div class="form-field">
-              <label for="firstName">First Name <span aria-hidden="true">*</span></label>
-              <input type="text" id="firstName" name="firstName" placeholder="John" autocomplete="given-name" required>
-            </div>
-            <div class="form-field">
-              <label for="lastName">Last Name <span aria-hidden="true">*</span></label>
-              <input type="text" id="lastName" name="lastName" placeholder="Doe" autocomplete="family-name" required>
-            </div>
-          </div>
-          <div class="form-field">
-            <label for="email">Email Address <span aria-hidden="true">*</span></label>
-            <input type="email" id="email" name="email" placeholder="john@example.com" autocomplete="email" required>
-          </div>
-          <div class="form-field">
-            <label for="phone">Phone / WhatsApp</label>
-            <input type="tel" id="phone" name="phone" placeholder="+254 700 000 000" autocomplete="tel">
-          </div>
-          <div class="form-field">
-            <label for="tourSelect">Tour of Interest</label>
-            <select id="tourSelect" name="tour">
-              <option value="">Select a package...</option>
-              <option value="masai-mara">Masai Mara Great Migration (7 Days)</option>
-              <option value="amboseli">Amboseli &amp; Kilimanjaro Views (4 Days)</option>
-              <option value="diani">Diani Beach &amp; Mombasa Old Town (5 Days)</option>
-              <option value="nakuru">Lakes Nakuru &amp; Bogoria (3 Days)</option>
-              <option value="mt-kenya">Mount Kenya Trek (6 Days)</option>
-              <option value="nairobi-np">Nairobi National Park Half Day</option>
-              <option value="naivasha">Lake Naivasha &amp; Crescent Island</option>
-              <option value="tsavo">Tsavo East &amp; West Safari (4 Days)</option>
-              <option value="samburu">Samburu &amp; Shaba Reserve (5 Days)</option>
-              <option value="custom">Custom Itinerary</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <div class="form-field">
-              <label for="travelDate">Travel Date</label>
-              <input type="date" id="travelDate" name="travelDate">
-            </div>
-            <div class="form-field">
-              <label for="groupSize">Group Size</label>
-              <select id="groupSize" name="groupSize">
-                <option value="1">1 – Solo</option>
-                <option value="2">2 – Couple</option>
-                <option value="3-5">3 – 5 Small Group</option>
-                <option value="6-10">6 – 10 Group</option>
-                <option value="10+">10+ Large Group</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-field">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" placeholder="Tell us about your ideal Kenya experience..."></textarea>
-          </div>
-          <button type="submit" class="btn-submit" id="submitBtn">
-            <span>Send Enquiry</span>
-            <span aria-hidden="true">→</span>
-          </button>
-          <p id="formStatus" role="alert" aria-live="polite" style="margin-top:.75rem;font-size:.85rem;color:var(--sage);display:none;"></p>
-        </form>
-      </div>
-
-    </div>
-  </section>
-
-</main>
-
-<!-- ═══ FOOTER ═══ -->
-<footer class="footer" role="contentinfo">
-  <div class="footer-inner">
-    <div class="footer-grid" style="padding:0 0 3rem">
-      <div class="footer-brand">
-        <a href="#" class="nav-logo" style="color:var(--gold)" aria-label="Cotesa Tours & Safaris – Home"><img src="images/Logo.jpg" alt="Cotesa Tours & Safaris Logo" style="height: 30px; margin-right: 8px;">COTESA TOURS & SAFARIS</a>
-        <p>Kenya's most trusted safari operator. Connecting travellers with the wild heart of East Africa since 2023.</p>
-        <div class="footer-socials" aria-label="Social media links">
-          <a href="#" class="footer-soc" aria-label="Facebook">f</a>
-          <a href="#" class="footer-soc" aria-label="LinkedIn">in</a>
-          <a href="#" class="footer-soc" aria-label="Twitter">tw</a>
-          <a href="#" class="footer-soc" aria-label="Instagram">ig</a>
-        </div>
-      </div>
-      <div class="footer-col">
-        <h4>Tours</h4>
-        <ul>
-          <li><a href="#tours">Masai Mara</a></li>
-          <li><a href="#tours">Amboseli</a></li>
-          <li><a href="#tours">Diani Coast</a></li>
-          <li><a href="#tours">Mount Kenya</a></li>
-          <li><a href="#tours">Rift Valley</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="#about">About Us</a></li>
-          <li><a href="#why">Why Cotesa</a></li>
+    <!-- ═══ NAV ═══ -->
+    <header class="nav" id="mainNav" role="banner">
+      <a href="#" class="nav-logo" aria-label="Cotesa Tours & Safaris – Home"
+        ><img
+          src="images/Logo.jpg"
+          alt="Cotesa Tours & Safaris Logo"
+          style="height: 40px; margin-right: 10px"
+        />COTESA TOURS & SAFARIS</a
+      >
+      <nav aria-label="Primary navigation">
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#tours">Tours</a></li>
+          <li><a href="#destinations">Destinations</a></li>
+          <li><a href="#why">Why Us</a></li>
           <li><a href="#testimonials">Reviews</a></li>
           <li><a href="#contact">Contact</a></li>
-          <li><a href="#">Blog</a></li>
         </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Contact</h4>
-        <ul>
-          <li><a href="https://maps.google.com/?q=Westlands,Nairobi" target="_blank" rel="noopener">Westlands, Nairobi</a></li>
-          <li><a href="tel:+254106642182">+254 106 642 182</a></li>
-          <li><a href="mailto:cotesasafaris@gmail.com">cotesasafaris@gmail.com</a></li>
-          <li><a href="https://wa.me/254106642182" target="_blank" rel="noopener">WhatsApp Us</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 COTESA TOURS & SAFARIS. All rights reserved. Licensed by Tourism Regulatory Authority of Kenya.</span>
-      <span>
-        <a href="#">Privacy Policy</a> ·
-        <a href="#">Terms of Service</a>
-      </span>
-    </div>
-  </div>
-</footer>
+      </nav>
+      <a href="#contact" class="nav-cta">Book Now</a>
+      <button
+        class="hamburger"
+        id="hamburger"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobMenu"
+        onclick="toggleMobileMenu()"
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </header>
 
-<script src="script.js"></script>
-</body>
+    <!-- ═══ MAIN CONTENT ═══ -->
+    <main id="main">
+      <!-- ── HERO ── -->
+      <section class="hero" id="hero" aria-label="Hero banner">
+        <div
+          class="hero-bg"
+          id="heroBg"
+          role="img"
+          aria-label="Wildebeest migration at Masai Mara"
+        ></div>
+        <div class="hero-content">
+          <div class="hero-eyebrow" aria-hidden="true">
+            Nairobi, Kenya — Est. 2023
+          </div>
+          <h1 class="hero-h1">Discover Wild<br /><em>Kenya</em></h1>
+          <p class="hero-sub">
+            Authentic coffee, tea, and wildlife safari experiences, curated for
+            the curious traveller
+          </p>
+          <div class="hero-btns">
+            <a href="#tours" class="btn-primary">Explore Tours</a>
+            <a href="#about" class="btn-outline">Our Story</a>
+          </div>
+        </div>
+        <div class="hero-scroll" aria-hidden="true">
+          <div class="hero-scroll-line"></div>
+          <span>Scroll</span>
+        </div>
+      </section>
+
+      <!-- ── STATS ── -->
+      <div class="stats-bar" role="region" aria-label="Company statistics">
+        <div class="stat-item reveal">
+          <span class="stat-number" data-target="4">4</span>
+          <span class="stat-label">Years Experience</span>
+        </div>
+        <div class="stat-item reveal delay-1">
+          <span class="stat-number" data-target="4800">4,800</span>
+          <span class="stat-label">Happy Travellers</span>
+        </div>
+        <div class="stat-item reveal delay-2">
+          <span class="stat-number" data-target="28">28</span>
+          <span class="stat-label">Safari Routes</span>
+        </div>
+        <div class="stat-item reveal delay-3">
+          <span class="stat-number" data-target="12">12</span>
+          <span class="stat-label">National Parks</span>
+        </div>
+      </div>
+
+      <!-- ── TOURS ── -->
+      <section
+        class="section tours-section"
+        id="tours"
+        aria-labelledby="tours-heading"
+      >
+        <div class="container">
+          <div class="reveal">
+            <p class="section-tag">Our Packages</p>
+            <h2 class="section-title" id="tours-heading">
+              Safari Tours &amp; <em>Adventures</em>
+            </h2>
+            <p class="section-lead">
+              Handpicked Kenya experiences designed around what moves you —
+              wildlife, culture, or coast.
+            </p>
+          </div>
+
+          <div
+            class="currency-switcher reveal"
+            style="
+              margin: 1rem 0;
+              display: flex;
+              align-items: center;
+              gap: 0.6rem;
+            "
+          >
+            <label
+              for="currencySelect"
+              style="font-weight: 600; color: var(--earth)"
+              >Currency</label
+            >
+            <select
+              id="currencySelect"
+              aria-label="Select currency"
+              style="
+                border: 1px solid var(--border);
+                border-radius: var(--radius);
+                padding: 0.45rem 0.75rem;
+              "
+            >
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+              <option value="GBP">GBP</option>
+              <option value="KES">KES</option>
+            </select>
+          </div>
+
+          <div
+            class="filter-tabs reveal"
+            role="group"
+            aria-label="Filter tours by category"
+          >
+            <button class="filter-tab active" data-filter="all">
+              All Packages
+            </button>
+            <button class="filter-tab" data-filter="day">Day Trips</button>
+            <button class="filter-tab" data-filter="group">
+              Group Joining
+            </button>
+            <button class="filter-tab" data-filter="luxury">
+              Luxury Private
+            </button>
+            <button class="filter-tab" data-filter="adventure">
+              Adventure
+            </button>
+            <button class="filter-tab" data-filter="international">
+              International
+            </button>
+          </div>
+
+          <div class="tours-grid" id="toursGrid">
+            <!-- Dynamically generated tour cards will be injected here by script.js -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ── ABOUT ── -->
+      <section
+        class="section about-section"
+        id="about"
+        aria-labelledby="about-heading"
+      >
+        <div class="container about-grid">
+          <div class="about-photos reveal">
+            <div class="about-badge" aria-hidden="true">
+              <strong>4</strong>
+              <span>Years</span>
+            </div>
+          </div>
+          <div class="about-text reveal delay-1">
+            <p class="section-tag">Our Story</p>
+            <h2 class="section-title" id="about-heading">
+              Kenya is Our<br /><em>Home &amp; Passion</em>
+            </h2>
+            <p class="section-lead">
+              We don't just show you Kenya — we share it the way we know it
+              best: intimately, honestly, unforgettably.
+            </p>
+            <p>
+              Founded in Nairobi in 2023, Cotesa Tours was built on a single
+              belief: the best safari is led by people who were born in this
+              landscape, who understand its rhythms, speak its languages, and
+              feel it in their bones.
+            </p>
+            <p>
+              From the Masai Mara to the Aberdare forests, from Diani Beach to
+              Lake Nakuru — every itinerary carries the knowledge of our guides
+              and the warmth of our people.
+            </p>
+            <div class="about-features">
+              <div class="about-feat">Expert Local Guides</div>
+              <div class="about-feat">Small Group Sizes</div>
+              <div class="about-feat">Eco-Responsible Travel</div>
+              <div class="about-feat">24/7 Guest Support</div>
+              <div class="about-feat">Custom Itineraries</div>
+              <div class="about-feat">Airport Transfers</div>
+              <div class="about-feat">Coffee Tours</div>
+              <div class="about-feat">Tea Tours</div>
+              <div class="about-feat">Wildlife Safaris</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── DESTINATIONS ── -->
+      <section
+        class="section destinations-section"
+        id="destinations"
+        aria-labelledby="dest-heading"
+      >
+        <div class="container">
+          <div class="reveal">
+            <p class="section-tag">Where We Go</p>
+            <h2 class="section-title" id="dest-heading">
+              Kenya's Most <em>Iconic Places</em>
+            </h2>
+          </div>
+          <div class="dest-grid">
+            <div class="dest-card reveal">
+              <div class="dest-img-box">
+                <img
+                  src="images/Masai Mara.jpg"
+                  alt="Masai Mara"
+                  loading="lazy"
+                />
+              </div>
+              <p class="dest-name">Masai Mara</p>
+              <p class="dest-count">6 tours</p>
+            </div>
+            <div class="dest-card reveal delay-1">
+              <div class="dest-img-box">
+                <img
+                  src="images/Amboseli National Park Day Trip.jpg"
+                  alt="Amboseli"
+                  loading="lazy"
+                />
+              </div>
+              <p class="dest-name">Amboseli</p>
+              <p class="dest-count">4 tours</p>
+            </div>
+            <div class="dest-card reveal delay-2">
+              <div class="dest-img-box">
+                <img
+                  src="images/Diani Coast.jpg"
+                  alt="Diani Coast"
+                  loading="lazy"
+                />
+              </div>
+              <p class="dest-name">Diani Coast</p>
+              <p class="dest-count">3 tours</p>
+            </div>
+            <div class="dest-card reveal delay-3">
+              <div class="dest-img-box">
+                <img src="images/Tsavo.jpg" alt="Tsavo" loading="lazy" />
+              </div>
+              <p class="dest-name">Tsavo</p>
+              <p class="dest-count">5 tours</p>
+            </div>
+            <div class="dest-card reveal">
+              <div class="dest-img-box">
+                <img
+                  src="images/Lake Naivasha + Hell’s Gate Day Trip.jpg"
+                  alt="Lake Nakuru"
+                  loading="lazy"
+                />
+              </div>
+              <p class="dest-name">Lake Nakuru</p>
+              <p class="dest-count">3 tours</p>
+            </div>
+            <div class="dest-card reveal delay-1">
+              <div class="dest-img-box">
+                <img
+                  src="images/Taita Salt lick.jpg"
+                  alt="Taita Salt Lick"
+                  loading="lazy"
+                />
+              </div>
+              <p class="dest-name">Taita Salt Lick</p>
+              <p class="dest-count">2 tours</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── WHY US ── -->
+      <section
+        class="section why-section"
+        id="why"
+        aria-labelledby="why-heading"
+      >
+        <div class="container">
+          <p class="section-tag">Why Cotesa</p>
+          <h2 class="section-title" id="why-heading">
+            Travel Better. <em>Go Deeper.</em>
+          </h2>
+          <div class="why-grid">
+            <div class="why-card reveal">
+              <span class="why-icon" aria-hidden="true">🦁</span>
+              <h3 class="why-h">Born in the Bush</h3>
+              <p class="why-p">
+                Our guides grew up in and around Kenya's national parks. Their
+                knowledge isn't from a textbook — it's lived, inherited, and
+                deeply personal.
+              </p>
+            </div>
+            <div class="why-card reveal delay-1">
+              <span class="why-icon" aria-hidden="true">🌿</span>
+              <h3 class="why-h">Eco-Responsible</h3>
+              <p class="why-p">
+                We partner only with lodges and camps that practise low-impact
+                tourism and actively support wildlife conservation and local
+                communities.
+              </p>
+            </div>
+            <div class="why-card reveal delay-2">
+              <span class="why-icon" aria-hidden="true">✦</span>
+              <h3 class="why-h">Tailored Itineraries</h3>
+              <p class="why-p">
+                No two trips are the same. We design every journey around you —
+                your pace, your interests, your idea of the perfect Kenya
+                experience.
+              </p>
+            </div>
+            <div class="why-card reveal delay-3">
+              <span class="why-icon" aria-hidden="true">🛡️</span>
+              <h3 class="why-h">Safe &amp; Supported</h3>
+              <p class="why-p">
+                Licensed by the Tourism Regulatory Authority of Kenya. 24/7
+                in-country support, fully insured vehicles, and first-aid
+                trained guides on every tour.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── TESTIMONIALS ── -->
+      <section
+        class="section testimonials-section"
+        id="testimonials"
+        aria-labelledby="testi-heading"
+      >
+        <div class="container">
+          <div
+            class="reveal"
+            style="
+              display: flex;
+              align-items: flex-end;
+              justify-content: space-between;
+              flex-wrap: wrap;
+              gap: 1.5rem;
+            "
+          >
+            <div>
+              <p class="section-tag">Guest Reviews</p>
+              <h2 class="section-title" id="testi-heading">
+                What Travellers <em>Say About Us</em>
+              </h2>
+            </div>
+            <p class="section-lead" style="max-width: 280px; margin-top: 0">
+              Real words from people who came to Kenya and left changed.
+            </p>
+          </div>
+        </div>
+        <div
+          class="testi-carousel"
+          role="region"
+          aria-label="Customer testimonials"
+        >
+          <div class="testi-track">
+            <!-- Set 1 -->
+            <div class="testi-card">
+              <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+              <p class="testi-quote">
+                The Great Migration was beyond anything I could have imagined.
+                Our guide James knew exactly where to position us — we watched
+                the crossing for three hours. Absolutely life-changing.
+              </p>
+              <div class="testi-author">
+                <div>
+                  <p class="testi-name">Sarah Mitchell</p>
+                  <p class="testi-origin">Toronto, Canada</p>
+                </div>
+              </div>
+            </div>
+            <div class="testi-card">
+              <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+              <p class="testi-quote">
+                Cotesa made everything seamless. From airport pickup to the last
+                game drive, every detail was handled with care. The small group
+                size meant genuinely personal attention.
+              </p>
+              <div class="testi-author">
+                <div>
+                  <p class="testi-name">Marco Ricci</p>
+                  <p class="testi-origin">Milan, Italy</p>
+                </div>
+              </div>
+            </div>
+            <div class="testi-card">
+              <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+              <p class="testi-quote">
+                I've done safaris in Tanzania and South Africa, and this was the
+                best. The guides' knowledge of animal behaviour is extraordinary
+                — they found the leopard in a tree nobody else could spot.
+              </p>
+              <div class="testi-author">
+                <div>
+                  <p class="testi-name">Amara Osei</p>
+                  <p class="testi-origin">Accra, Ghana</p>
+                </div>
+              </div>
+            </div>
+            <div class="testi-card">
+              <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+              <p class="testi-quote">
+                The Diani Beach extension was perfect. Five days of wildlife
+                followed by five days of ocean — Cotesa handled it all
+                flawlessly. Already planning our return trip.
+              </p>
+              <div class="testi-author">
+                <div>
+                  <p class="testi-name">Priya Nair</p>
+                  <p class="testi-origin">Mumbai, India</p>
+                </div>
+              </div>
+            </div>
+            <div class="testi-card">
+              <div class="testi-stars" aria-label="5 out of 5 stars">★★★★★</div>
+              <p class="testi-quote">
+                As a solo female traveller, safety was my first concern. Cotesa
+                made me feel completely secure throughout. Professional, warm,
+                and genuinely great company.
+              </p>
+              <div class="testi-author">
+                <div>
+                  <p class="testi-name">Hanna Björk</p>
+                  <p class="testi-origin">Stockholm, Sweden</p>
+                </div>
+              </div>
+            </div>
+            <!-- Duplicate for seamless loop -->
+            <div class="testi-card" aria-hidden="true">
+              <div class="testi-stars">★★★★★</div>
+              <p class="testi-quote">
+                The Great Migration was beyond anything I could have imagined.
+                Our guide James knew exactly where to position us — we watched
+                the crossing for three hours. Absolutely life-changing.
+              </p>
+              <div class="testi-author">
+                <div>
+                  <p class="testi-name">Sarah Mitchell</p>
+                  <p class="testi-origin">Toronto, Canada</p>
+                </div>
+              </div>
+            </div>
+            <div class="testi-card" aria-hidden="true">
+              <div class="testi-stars">★★★★★</div>
+              <p class="testi-quote">
+                Cotesa made everything seamless. From airport pickup to the last
+                game drive, every detail was handled with care. The small group
+                size meant genuinely personal attention.
+              </p>
+              <div class="testi-author">
+                <div>
+                  <p class="testi-name">Marco Ricci</p>
+                  <p class="testi-origin">Milan, Italy</p>
+                </div>
+              </div>
+            </div>
+            <div class="testi-card" aria-hidden="true">
+              <div class="testi-stars">★★★★★</div>
+              <p class="testi-quote">
+                I've done safaris in Tanzania and South Africa, and this was the
+                best. The guides' knowledge of animal behaviour is extraordinary
+                — they found the leopard in a tree nobody else could spot.
+              </p>
+              <div class="testi-author">
+                <div>
+                  <p class="testi-name">Amara Osei</p>
+                  <p class="testi-origin">Accra, Ghana</p>
+                </div>
+              </div>
+            </div>
+            <div class="testi-card" aria-hidden="true">
+              <div class="testi-stars">★★★★★</div>
+              <p class="testi-quote">
+                The Diani Beach extension was perfect. Five days of wildlife
+                followed by five days of ocean — Cotesa handled it all
+                flawlessly. Already planning our return trip.
+              </p>
+              <div class="testi-author">
+                <div>
+                  <p class="testi-name">Priya Nair</p>
+                  <p class="testi-origin">Mumbai, India</p>
+                </div>
+              </div>
+            </div>
+            <div class="testi-card" aria-hidden="true">
+              <div class="testi-stars">★★★★★</div>
+              <p class="testi-quote">
+                As a solo female traveller, safety was my first concern. Cotesa
+                made me feel completely secure throughout. Professional, warm,
+                and genuinely great company.
+              </p>
+              <div class="testi-author">
+                <div>
+                  <p class="testi-name">Hanna Björk</p>
+                  <p class="testi-origin">Stockholm, Sweden</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── GALLERY ── -->
+      <section
+        class="section gallery-section"
+        aria-labelledby="gallery-heading"
+      >
+        <div class="container">
+          <div class="reveal">
+            <p class="section-tag">Kenya Through Our Lenses</p>
+            <h2 class="section-title" id="gallery-heading">
+              Capturing the <em>Wild Beauty</em>
+            </h2>
+            <p class="section-lead">
+              Every image tells a story of Kenya's untamed landscapes, diverse
+              wildlife, and vibrant cultures.
+            </p>
+          </div>
+          <div class="gallery-grid reveal">
+            <div class="gallery-item">
+              <img
+                src="images/Masai Mara.jpg"
+                alt="Masai Mara sunset"
+                loading="lazy"
+              />
+            </div>
+            <div class="gallery-item">
+              <img
+                src="images/Amboseli National Park Day Trip.jpg"
+                alt="Amboseli elephants"
+                loading="lazy"
+              />
+            </div>
+            <div class="gallery-item">
+              <img
+                src="images/Diani Beach Escape.jpg"
+                alt="Diani Beach"
+                loading="lazy"
+              />
+            </div>
+            <div class="gallery-item">
+              <img
+                src="images/Lake Naivasha + Hell’s Gate Day Trip.jpg"
+                alt="Lake Naivasha"
+                loading="lazy"
+              />
+            </div>
+            <div class="gallery-item">
+              <img
+                src="images/Samburu & Shaba Reserve.jpg"
+                alt="Samburu wildlife"
+                loading="lazy"
+              />
+            </div>
+            <div class="gallery-item">
+              <img
+                src="images/harshil-gudka-QYuRIa7NXfQ-unsplash.jpg"
+                alt="Mountain landscape"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── CONTACT ── -->
+      <section
+        class="section contact-section"
+        id="contact"
+        aria-labelledby="contact-heading"
+      >
+        <div class="container contact-grid">
+          <div class="reveal">
+            <p class="section-tag">Get In Touch</p>
+            <h2 class="section-title" id="contact-heading">
+              Plan Your <em>Kenya Journey</em>
+            </h2>
+            <p>
+              Ready to experience Kenya with people who know it best? Tell us
+              about your dream trip and we'll craft the perfect itinerary.
+            </p>
+            <div class="contact-details">
+              <div class="contact-item">
+                <div class="contact-icon" aria-hidden="true">📍</div>
+                <div>
+                  <strong>Address</strong><span>Westlands, Nairobi, Kenya</span>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-icon" aria-hidden="true">📞</div>
+                <div>
+                  <strong>Phone / WhatsApp</strong
+                  ><a href="tel:+254106642182">+254 106 642 182</a>
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-icon" aria-hidden="true">✉️</div>
+                <div>
+                  <strong>Email</strong
+                  ><a href="mailto:hello@cotesatours.co.ke"
+                    >hello@cotesatours.co.ke</a
+                  >
+                </div>
+              </div>
+              <div class="contact-item">
+                <div class="contact-icon" aria-hidden="true">🕐</div>
+                <div>
+                  <strong>Office Hours</strong
+                  ><span>Mon – Sat, 8:00 AM – 6:00 PM EAT</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="reveal delay-1">
+            <div class="booking-history" aria-label="Recent booking attempts">
+              <div class="history-header">
+                <div>
+                  <p class="section-tag">Booking History</p>
+                  <h3 class="section-title history-title">
+                    Recent Booking Attempts
+                  </h3>
+                </div>
+                <button
+                  type="button"
+                  class="btn-clear-history"
+                  id="clearHistoryBtn"
+                >
+                  Clear history
+                </button>
+              </div>
+              <p class="history-note">
+                Your recent booking attempts are stored locally on this device
+                and help you track what you submitted.
+              </p>
+              <ul id="bookingHistoryList" class="history-list">
+                <li class="history-empty">No previous booking attempts yet.</li>
+              </ul>
+            </div>
+            <form
+              id="enquiryForm"
+              action="https://formspree.io/f/mdapjlpl"
+              method="POST"
+              novalidate
+            >
+              <input
+                type="hidden"
+                name="_subject"
+                value="New Booking Enquiry - Cotesa Tours & Safaris"
+              />
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="firstName"
+                    >First Name <span aria-hidden="true">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    placeholder="John"
+                    autocomplete="given-name"
+                    required
+                  />
+                </div>
+                <div class="form-field">
+                  <label for="lastName"
+                    >Last Name <span aria-hidden="true">*</span></label
+                  >
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    placeholder="Doe"
+                    autocomplete="family-name"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="form-field">
+                <label for="email"
+                  >Email Address <span aria-hidden="true">*</span></label
+                >
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="john@example.com"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+              <div class="form-field">
+                <label for="phone">Phone / WhatsApp</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  placeholder="+254 700 000 000"
+                  autocomplete="tel"
+                />
+              </div>
+              <div class="form-field">
+                <label for="tourSelect">Tour of Interest</label>
+                <select id="tourSelect" name="tour">
+                  <option value="">Select a package...</option>
+                  <option value="masai-mara">
+                    Masai Mara Great Migration (7 Days)
+                  </option>
+                  <option value="amboseli">
+                    Amboseli &amp; Kilimanjaro Views (4 Days)
+                  </option>
+                  <option value="diani">
+                    Diani Beach &amp; Mombasa Old Town (5 Days)
+                  </option>
+                  <option value="nakuru">
+                    Lakes Nakuru &amp; Bogoria (3 Days)
+                  </option>
+                  <option value="mt-kenya">Mount Kenya Trek (6 Days)</option>
+                  <option value="nairobi-np">
+                    Nairobi National Park Half Day
+                  </option>
+                  <option value="naivasha">
+                    Lake Naivasha &amp; Crescent Island
+                  </option>
+                  <option value="tsavo">
+                    Tsavo East &amp; West Safari (4 Days)
+                  </option>
+                  <option value="samburu">
+                    Samburu &amp; Shaba Reserve (5 Days)
+                  </option>
+                  <option value="bali">7 Days Bali Experience</option>
+                  <option value="cape-town">6 Days Cape Town Escape</option>
+                  <option value="zanzibar">
+                    5 Days Zanzibar Beach Holiday
+                  </option>
+                  <option value="custom">Custom Itinerary</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="travelDate">Travel Date</label>
+                  <input type="date" id="travelDate" name="travelDate" />
+                </div>
+                <div class="form-field">
+                  <label for="groupSize">Group Size</label>
+                  <select id="groupSize" name="groupSize">
+                    <option value="1">1 – Solo</option>
+                    <option value="2">2 – Couple</option>
+                    <option value="3-5">3 – 5 Small Group</option>
+                    <option value="6-10">6 – 10 Group</option>
+                    <option value="10+">10+ Large Group</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-field">
+                <label for="message">Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  placeholder="Tell us about your ideal Kenya experience..."
+                ></textarea>
+              </div>
+              <button type="submit" class="btn-submit" id="submitBtn">
+                <span>Send Enquiry</span>
+                <span aria-hidden="true">→</span>
+              </button>
+              <p
+                id="formStatus"
+                role="alert"
+                aria-live="polite"
+                style="
+                  margin-top: 0.75rem;
+                  font-size: 0.85rem;
+                  color: var(--sage);
+                  display: none;
+                "
+              ></p>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer class="footer" role="contentinfo">
+      <div class="footer-inner">
+        <div class="footer-grid" style="padding: 0 0 3rem">
+          <div class="footer-brand">
+            <a
+              href="#"
+              class="nav-logo"
+              style="color: var(--gold)"
+              aria-label="Cotesa Tours & Safaris – Home"
+              ><img
+                src="images/Logo.jpg"
+                alt="Cotesa Tours & Safaris Logo"
+                style="height: 30px; margin-right: 8px"
+              />COTESA TOURS & SAFARIS</a
+            >
+            <p>
+              Kenya's most trusted safari operator. Connecting travellers with
+              the wild heart of East Africa since 2023.
+            </p>
+            <div class="footer-socials" aria-label="Social media links">
+              <a href="#" class="footer-soc" aria-label="Facebook">f</a>
+              <a href="#" class="footer-soc" aria-label="LinkedIn">in</a>
+              <a href="#" class="footer-soc" aria-label="Twitter">tw</a>
+              <a href="#" class="footer-soc" aria-label="Instagram">ig</a>
+            </div>
+          </div>
+          <div class="footer-col">
+            <h4>Tours</h4>
+            <ul>
+              <li><a href="#tours">Masai Mara</a></li>
+              <li><a href="#tours">Amboseli</a></li>
+              <li><a href="#tours">Diani Coast</a></li>
+              <li><a href="#tours">Mount Kenya</a></li>
+              <li><a href="#tours">Rift Valley</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="#about">About Us</a></li>
+              <li><a href="#why">Why Cotesa</a></li>
+              <li><a href="#testimonials">Reviews</a></li>
+              <li><a href="#contact">Contact</a></li>
+              <li><a href="#">Blog</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Contact</h4>
+            <ul>
+              <li>
+                <a
+                  href="https://maps.google.com/?q=Westlands,Nairobi"
+                  target="_blank"
+                  rel="noopener"
+                  >Westlands, Nairobi</a
+                >
+              </li>
+              <li><a href="tel:+254117764482">+254 117 764 482</a></li>
+              <li>
+                <a href="mailto:cotesasafaris@gmail.com"
+                  >cotesasafaris@gmail.com</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/254117764482"
+                  target="_blank"
+                  rel="noopener"
+                  >WhatsApp Us</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span
+            >© 2026 COTESA TOURS & SAFARIS. All rights reserved. Licensed by
+            Tourism Regulatory Authority of Kenya.</span
+          >
+          <span>
+            <a href="#">Privacy Policy</a> ·
+            <a href="#">Terms of Service</a>
+          </span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
 </html>
